@@ -1,0 +1,36 @@
+{
+  "name": "rotation",
+  "title": "jquery.rotation",
+  "description": "Responsive and mobile enable jQuery plugin to help create rotating content",
+  "keywords": [
+    "slider",
+    "carousel",
+    "rotation"
+  ],
+  "version": "0.1.0",
+  "author": {
+    "name": "Piotr Murach",
+    "email": "",
+    "url": ""
+  },
+  "maintainers": [
+    {
+      "name": "Piotr Murach",
+      "email": "",
+      "url": ""
+    }
+  ],
+  "licenses": [
+      {
+          "type": "mit",
+          "url": "http://opensource.org/licenses/MIT"
+      }
+  ],
+  "bugs": "https://github.com/peter-murach/rotation.js/issues",
+  "homepage": "https://github.com/peter-murach/rotation.js",
+  "docs": "https://github.com/peter-murach/rotation.js/wiki",
+  "download": "https://github.com/peter-murach/rotation.js/tags",
+  "dependencies": {
+      "jquery": ">=1.8"
+  }
+}
