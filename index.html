@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" href="rotation.css">
+    <script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
+    <script src="jquery.rotation.js"></script>
+    <style>
+      ul {
+        list-style: none;
+        padding: 0;
+      }
+      li {
+        padding: 10px;
+        margin: 0;
+        background: #CCCCCC;
+        width: 250px;
+      }
+      .rotator-pagination li {
+        display: block;
+        float: left;
+        width: 45px;
+        padding: 0;
+      }
+      .rotator-pagination li a {
+        display: block;
+        text-decoration: none;
+        color: #111;
+        padding: 10px;
+      }
+      .rotator-pagination li a:hover,
+      .rotator-pagination li a.current {
+        background-color: #999999;
+      }
+
+    </style>
+  </head>
+
+  <body>
+    <div id="rotator-container">
+      <ul id="rotator">
+        <li>
+          <blockquote>
+            <p>Morbi at odio iaculis, pharetra metus a, sodales metus. Nulla semper interdum luctus. Mauris quis aliquet metus. Vestibulum suscipit odio id ligula vulputate, eget scelerisque nibh tempus. Donec sagittis lacus magna.</p>
+            <div class="author">Piotr Murach</div>
+          </blockquote>
+        </li>
+        <li>
+          <blockquote>
+            <p>Morbi at odio iaculis, pharetra metus a, sodales metus. Nulla semper interdum luctus. Mauris quis aliquet metus. Vestibulum suscipit odio id ligula vulputate, eget scelerisque nibh tempus. Donec sagittis lacus magna.</p>
+            <div class="author">Darryl Pinto</div>
+          </blockquote>
+        </li>
+        <li>
+          <blockquote>
+            <p>Morbi at odio iaculis, pharetra metus a, sodales metus. Nulla semper interdum luctus. Mauris quis aliquet metus. Vestibulum suscipit odio id ligula vulputate, eget scelerisque nibh tempus. Donec sagittis lacus magna.</p>
+            <div class="author">Martin Davis</div>
+          </blockquote>
+        </li>
+        <li>
+          <blockquote>
+            <p>Morbi at odio iaculis, pharetra metus a, sodales metus. Nulla semper interdum luctus. Mauris quis aliquet metus. Vestibulum suscipit odio id ligula vulputate, eget scelerisque nibh tempus. Donec sagittis lacus magna.</p>
+            <div class="author">Chris Lewis</div>
+          </blockquote>
+        </li>
+      </ul>
+    </div>
+
+    <script>
+      $("#rotator-container").rotate({
+        autoRotate: true,
+        paginationNumbers: true
+      });
+    </script>
+  </body>
+</html>
