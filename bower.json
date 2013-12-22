@@ -1,0 +1,25 @@
+{
+  "name": "rotation.js",
+  "version": "0.1.0",
+  "homepage": "https://github.com/peter-murach/rotation.js",
+  "authors": [
+    "Piotr Murach"
+  ],
+  "description": "Responsive and mobile enabled jQuery plugin to help create rotating content.",
+  "main": "jquery.rotation.js",
+  "keywords": [
+    "slider",
+    "carousel",
+    "navigation",
+    "rotation",
+    "rotator"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
