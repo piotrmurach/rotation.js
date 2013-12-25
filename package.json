@@ -1,0 +1,32 @@
+{
+  "name": "rotation.js",
+  "version": "0.1.0",
+  "description": "Responsive and mobile enabled jQuery plugin to help create rotating content such as image carousel, slider or testimonials.",
+  "main": "Gruntfile.js",
+  "author": "Piotr Murach",
+  "devDependencies": {
+    "grunt": "~0.4.2",
+    "grunt-contrib-uglify": "~0.2.7",
+    "grunt-contrib-jshint": "~0.7.2"
+  },
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/peter-murach/rotation.js.git"
+  },
+  "keywords": [
+    "slider",
+    "carousel",
+    "rotator",
+    "rotation"
+  ],
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/peter-murach/rotation.js/issues"
+  }
+}
