@@ -5,7 +5,7 @@
   "authors": [
     "Piotr Murach"
   ],
-  "description": "Responsive and mobile enabled jQuery plugin to help create rotating content.",
+  "description": "Responsive and mobile enabled jQuery plugin to help create rotating content such as image carousel, slider or testimonials.",
   "main": "jquery.rotation.js",
   "keywords": [
     "slider",
