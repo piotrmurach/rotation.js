@@ -28,10 +28,10 @@
     scrolling: true,
     keypress: true,
     // main rotation id
-    itemsId: 'rotator',
+    itemsId: 'rotation',
     itemsElement: 'li',
-    groupItemsBy: 1,
-    rotateByItem: true,
+    visibleItems: 1,
+    scrollingStep: 1,
     // display controls
     pauseControl: true,
     pauseControlContainer: 'rotation-play-pause',
@@ -181,8 +181,11 @@
       });
     },
 
-
+    /*
+     * Main content rotation.
+     */
     rotate: function (direction, callback) {
+      // nothing to rotate
       if (this.itemsCount() <= 1) { return; }
 
       // Stop if user has interacted
