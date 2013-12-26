@@ -62,10 +62,10 @@
     this.options = $.extend({}, defaults, options);
 
     this.container      = container;
-    this.previousIndex  = 0;
     this.currentIndex   = 0;
     this.itemsContainer = $("#" + this.getOption("itemsId"), this.container);
     this.items          = $(this.getOption("itemsElement"), this.itemsContainer);
+    this.itemWidth      = this.itemsContainer.width();
 
     this.options.beforeInit.call(this);
 
@@ -200,21 +200,42 @@
         itemsCount       = this.itemsCount(),
         previousElement  = this.getItemByIndex(currentIndex),
         duration         = this.getOption("duration"),
-        self             = this;
+        self             = this,
+        element, distance;
 
-      if (currentIndex === 0 && direction === -1) {
+      if (currentIndex === 0 && direction < 0) {
         currentIndex = itemsCount - 1;
       } else {
         currentIndex = (direction ? currentIndex + direction : ++currentIndex) % itemsCount;
       }
       // console.log('current index: ' + currentIndex);
 
-      var element = this.getItemByIndex(currentIndex);
+      element = this.getItemByIndex(currentIndex);
+      distance = direction ? direction * self.itemWidth : self.itemWidth;
 
-      $(previousElement).fadeOut(duration, function () {
-        $(element).fadeIn(duration, function () {
-          self.currentIndex = currentIndex;
-        });
+      self.itemsContainer.stop();
+
+      $.when(
+        $(previousElement).css({
+            'margin-left': '0px', 'opacity': 1
+           }).animate({
+          'margin-left': distance < 0 ? distance : -distance + 'px',
+          'opacity': 0}, {
+           duration: duration,
+           complete: function () {
+             $(element).css({
+               'zIndex': 10,
+               'opacity': 0,
+               'margin-left': distance < 0 ? -distance : distance + 'px'
+             }).show().animate({
+              'margin-left': '0px', 'opacity': 1}, {
+              duration: duration,
+             });
+           }
+        })
+
+      ).done(function () {
+        self.currentIndex = currentIndex;
       });
 
       if (this.getOption("pagination")) {
