@@ -26,6 +26,7 @@
     stopOnHover: false,
     // mouse scroll content
     scrolling: true,
+    keypress: true,
     // main rotation id
     itemsId: 'rotator',
     itemsElement: 'li',
@@ -139,6 +140,22 @@
 
       if (this.getOption("scrolling")) {
         self.bindScrolling();
+      }
+
+      if (this.getOption("keypress")) {
+        $(document).on('keydown', function (event) {
+          // next
+          if (event.keyCode === 39) {
+            self.setOption("autoRotate", true);
+            self.rotate(1);
+          }
+          // prev
+          if (event.keyCode === 37) {
+            self.setOption("autoRotate", true);
+            self.rotate(-1);
+          }
+        });
+
       }
 
       // TODO: add more events including swipe
