@@ -1,49 +1,54 @@
 /*
- * rotation.js
- * 
+ * rotation.js 0.2.0
+ *
+ * (c) 2013 Piotr Murach
+ *
+ * Creates rotation of elements with various transition events.
  */
 ;(function ($, window, document, undefined) {
+  'use strict';
 
   var defaults = {
     // String: default namespace used for classes and events
-    namespace: 'rotator',
+    namespace: 'rotation',
     // animate automatically
     autoRotate: true,
-    // rotator interval (ms)
+    // rotation interval (ms)
     interval: 4000,
     // transition speed (ms)
     duration: 500,
     // transition easing
-    easing: 'ease',
+    transitionIn: 'fadeIn',
+    transitionOut: 'fadeOut',
     // auto rotation pauses on hover
     pauseOnHover: true,
     // auto rotation stops on hover
     stopOnHover: false,
     // mouse scroll content
     scrolling: true,
-
-    // display controls
-    pauseControl: true,
-    pauseControlContainer: this.namespace + 'play-pause',
-
-    navControls: true,
-    // if element exists, the controls get appended
-    navControlsClass : 'rotator-nav-controls',
-    navControlsNextClass : 'rotator-next',
-    navControlsPreviousClass : 'rotator-previous',
-    navControlsNextText : 'Next',
-    navControlsPreviousText : 'Previous',
-
-    pagination: true,
-    paginationNumbers: true,
-    paginationClass: 'rotator-pagination',
-    paginationItemClass: 'rotator-control',
-    paginationCurrentItemClass: 'current',
-
+    // main rotation id
     itemsId: 'rotator',
     itemsElement: 'li',
     groupItemsBy: 1,
-
+    rotateByItem: true,
+    // display controls
+    pauseControl: true,
+    pauseControlContainer: 'rotation-play-pause',
+    // navigation control arrows
+    navControls          : true,
+    navControlsClass     : 'rotation-nav-controls',
+    navControlsItemClass : 'item',
+    navControlsNextClass : 'next',
+    navControlsPrevClass : 'prev',
+    navControlsNextText  : '>>',
+    navControlsPrevText  : '<<',
+    // pagination controls
+    pagination: true,
+    paginationNumbers: true,
+    paginationClass: 'rotation-pagination',
+    paginationItemClass: 'item',
+    paginationCurrentItemClass: 'current',
+    // callbacks
     beforeInit: function () {},
     afterInit: function () {},
     beforeTransition: function () {},
@@ -116,7 +121,7 @@
       var i;
 
       for (i = 0; i < this.itemsCount(); i++) {
-        this.getItemByIndex(i).attr('id', 'rotator-item-' + i);
+        this.getItemByIndex(i).attr('id', 'rotation-item-' + i);
       }
     },
 
@@ -160,29 +165,29 @@
     },
 
 
-    rotate: function (step, callback) {
-
+    rotate: function (direction, callback) {
       if (this.itemsCount() <= 1) { return; }
 
       // Stop if user has interacted
       if (!this.getOption("autoRotate")) { return; }
 
+      if (direction) { this.pause(); }
+
       this.getOption("beforeTransition").call(this);
 
       var
         currentIndex     = this.currentIndex,
-        previousIndex    = this.previousIndex,
-        itemsCount       = this.itemsCount() - 1,
+        itemsCount       = this.itemsCount(),
         previousElement  = this.getItemByIndex(currentIndex),
         duration         = this.getOption("duration"),
         self             = this;
 
-      // console.log('current index: ' + currentIndex);
-      if (currentIndex === itemsCount) {
-        currentIndex = 0;
+      if (currentIndex === 0 && direction === -1) {
+        currentIndex = itemsCount - 1;
       } else {
-        currentIndex++;
+        currentIndex = (direction ? currentIndex + direction : ++currentIndex) % itemsCount;
       }
+      // console.log('current index: ' + currentIndex);
 
       var element = this.getItemByIndex(currentIndex);
 
@@ -193,19 +198,14 @@
       });
 
       if (this.getOption("pagination")) {
-        var
-          currentClass = this.getOption("paginationCurrentItemClass"),
-          paginationContainer = $('.'+this.getOption("paginationClass"), this.container),
-          nextItem = $("a." + currentClass, paginationContainer).parent('li').next('li'),
-          nextPage = nextItem.length ? nextItem.find('a') : $("a:first", paginationContainer);
-
-        $('a.' + currentClass, paginationContainer).removeClass(currentClass);
-        nextPage.addClass(currentClass);
-      }
+        this.setPaginationCurrentItem(direction);
+       }
 
       // callbacks
       this.getOption("afterTransition").call(this);
       if (callback && (typeof callback === 'function')) { callback(); }
+
+      if (direction) { this.play(); }
     },
 
     play: function () {
@@ -213,8 +213,7 @@
 
       if (this.getOption("autoRotate")) {
         this.auto = setInterval(function () {
-          // self.rotate(0);
-          self.rotate(self.currentIndex);
+          self.rotate();
         }, this.getOption("interval"));
       }
     },
@@ -225,6 +224,21 @@
       if (self.auto) {
         self.auto = clearInterval(self.auto);
       }
+    },
+
+    setPaginationCurrentItem: function (direction) {
+      var
+        currentClass        = this.getOption("paginationCurrentItemClass"),
+        paginationContainer = $('.'+this.getOption("paginationClass"), this.container),
+        currentItem         = $("a." + currentClass, paginationContainer).parent('li'),
+        nextItem, nextPage, selector;
+
+      selector = direction === -1 ? "last" : "first";
+      nextItem = direction === -1 ? currentItem.prev('li') : currentItem.next('li');
+      nextPage = nextItem.length ? nextItem.find('a') : $("a:" + selector, paginationContainer);
+
+      $('a.' + currentClass, paginationContainer).removeClass(currentClass);
+      nextPage.addClass(currentClass);
     },
 
     /*
@@ -244,7 +258,49 @@
      * Builds rotator navigation.
      */
     buildNavControls: function () {
-      // TODO: build nav controls
+      if (this.itemsCount() <= 1) { return; }
+
+      var self = this,
+          container = this.container,
+          navContainer, item;
+
+      navContainer = $('<div/>', {
+        'class': this.getOption("navControlsClass")
+      });
+      navContainer.appendTo(container);
+
+      item = $('<a/>', {
+        'href': '#',
+        'class': this.getOption("navControlsItemClass") + ' ' + this.getOption("navControlsPrevClass"),
+        'data-direction': -1,
+        'html': this.getOption("navControlsPrevText")
+      });
+      item.appendTo(navContainer);
+      item = $('<a/>', {
+        'href': '#',
+        'class': this.getOption("navControlsItemClass") + ' ' + this.getOption("navControlsNextClass"),
+        'data-direction': 1,
+        'html': this.getOption("navControlsNextText")
+      });
+      item.appendTo(navContainer);
+
+      navContainer.children().on('click', function (event) {
+        event.preventDefault();
+        var
+          direction = +$(this).data('direction'),
+          currentElement, index;
+
+        if (self.currentIndex === 0 && direction === -1) {
+          index = self.itemsCount() - 1;
+        } else {
+          index = (self.currentIndex + direction) % self.itemsCount();
+        }
+        currentElement = $("#rotation-item-" + index);
+        currentElement.show().siblings('li').hide();
+
+        self.setOption("autoRotate", true);
+        self.rotate(direction);
+      });
     },
 
     /*
@@ -265,9 +321,9 @@
       for (i = 0; i < this.itemsCount(); i++) {
         item = $('<li/>');
         link = $('<a/>', {
-          'href': '#rotator-item-' + i,
+          'href': '#rotation-item-' + i,
           'data-index': i,
-          'text': this.getOption("paginationNumbers") ? i : '',
+          'text': this.getOption("paginationNumbers") ? i+1 : '',
           'class': this.getOption("paginationItemClass")
         });
         link.appendTo(item);
@@ -277,21 +333,20 @@
       navItems = $('li', paginationContainer).children();
       navItems.eq(0).addClass(this.getOption("paginationCurrentItemClass"));
 
-      navItems.on('click', function (event) {
+      navItems.on('click touchstart', function (event) {
         event.preventDefault();
         var
           currentElement = $(this),
-          pageIndex = currentElement.data('index');
+          pageIndex = +currentElement.data('index');
 
         $(currentElement.attr('href')).show().siblings('li').hide();
-        currentElement.addClass(self.getOption("paginationCurrentItemClass")).parent('li').siblings('li').find('a').removeClass('current');
+        currentElement.addClass(self.getOption("paginationCurrentItemClass")).
+          parent('li').siblings('li').find('a').removeClass('current');
 
         // reset timer
         self.pause();
-
         self.currentIndex = pageIndex;
         self.setOption("autoRotate", true);
-
         self.play();
       });
     }
