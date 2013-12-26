@@ -84,7 +84,7 @@
     };
   };
 
-  Rotator.VERSION = '0.1.0';
+  Rotator.VERSION = '0.3.0';
 
   $.extend(Rotator.prototype, {
 
@@ -272,10 +272,15 @@
         currentClass        = this.getOption("paginationCurrentItemClass"),
         paginationContainer = $('.'+this.getOption("paginationClass"), this.container),
         currentItem         = $("a." + currentClass, paginationContainer).parent('li'),
-        nextItem, nextPage, selector;
+        nextIndex, nextItem, nextPage, selector;
 
-      selector = direction === -1 ? "last" : "first";
-      nextItem = direction === -1 ? currentItem.prev('li') : currentItem.next('li');
+      selector = direction < 0 ? "last" : "first";
+      if (direction) {
+        nextIndex = direction < 0 ? this.currentIndex + direction : this.currentIndex + direction - 1;
+      } else {
+        nextIndex = this.currentIndex;
+      }
+      nextItem = currentItem.siblings().eq(nextIndex);
       nextPage = nextItem.length ? nextItem.find('a') : $("a:" + selector, paginationContainer);
 
       $('a.' + currentClass, paginationContainer).removeClass(currentClass);
@@ -327,17 +332,7 @@
 
       navContainer.children().on('click', function (event) {
         event.preventDefault();
-        var
-          direction = +$(this).data('direction'),
-          currentElement, index;
-
-        if (self.currentIndex === 0 && direction === -1) {
-          index = self.itemsCount() - 1;
-        } else {
-          index = (self.currentIndex + direction) % self.itemsCount();
-        }
-        currentElement = $("#rotation-item-" + index);
-        currentElement.show().siblings('li').hide();
+        var direction = +$(this).data('direction');
 
         self.setOption("autoRotate", true);
         self.rotate(direction);
@@ -378,17 +373,16 @@
         event.preventDefault();
         var
           currentElement = $(this),
-          pageIndex = +currentElement.data('index');
+          currentClass   = self.getOption("paginationCurrentItemClass"),
+          pageIndex      = +currentElement.data('index'),
+          direction, currentIndex;
 
-        $(currentElement.attr('href')).show().siblings('li').hide();
-        currentElement.addClass(self.getOption("paginationCurrentItemClass")).
-          parent('li').siblings('li').find('a').removeClass('current');
+        currentIndex = +currentElement.
+          parent('li').siblings('li').find('a.'+currentClass).data('index');
+        direction =  pageIndex - currentIndex;
 
-        // reset timer
-        self.pause();
-        self.currentIndex = pageIndex;
         self.setOption("autoRotate", true);
-        self.play();
+        self.rotate(direction);
       });
     }
 
