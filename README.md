@@ -1,17 +1,17 @@
 rotation.js
 ===========
 
-Responsive and mobile enabled jQuery plugin to help create rotating content.
+Responsive and mobile enabled jQuery plugin to help create rotating content such as image carousel, slider or testimonials.
 
 ## Features
 
 * Highly customisable
 * Semantic markup
-* Responsive support
-* Mobile friendly
 * CSS3 transition animation
+* Mobile friendly
+* Responsive support
 
-## Setup
+## Usage
 
 Include jQuery as the dependency
 
@@ -25,7 +25,7 @@ and then include `jquery.rotation.js` like so
   <script src="jquery.rotation.js"></script>
 ```
 
-Then add semantic markup to describe your content, any item that requires rotation should be placed inside spearte list element. For instance, to rotate quotes one can write markup such as
+Then add semantic markup to describe your content, any item that requires rotation should be placed inside separate list element. For instance, to rotate quotes one can write markup such as
 
 ```html
   <div id="rotator-container">
@@ -40,7 +40,7 @@ Then add semantic markup to describe your content, any item that requires rotati
     </ul>
   </div>
 ```
-Finally, initialize the rotation plugin by passing options
+Finally, initialise the rotation plugin by passing options
 
 ```javascript
   $("#rotator-container").rotate({
@@ -49,15 +49,40 @@ Finally, initialize the rotation plugin by passing options
   });
 ```
 
+## Examples
+
+1. Testimonials rotation:
+
+2. Image Carousel
+
+3. Twitter feed rotation
+
 ## Options
 
 The following are all available options:
 
-| Option       | Default   | Type   | Description
-| -------      | --------- | ------ | --------
-| `autoRotate` | `true`    | bool   | animate automatically
-| `interval`   | `4000`    | int    | rotation interval (ms)
-| `duration`   | `500`     | int    | transition speed (ms)
+| Option              | Default   | Type   | Description
+| -------             | --------- | ------ | --------
+| `autoRotate`        | `true`    | bool   | animate automatically
+| `interval`          | `4000`    | int    | rotation interval (ms)
+| `duration`          | `500`     | int    | transition speed (ms)
+| `itemsId`           | `rotator` | string | id for the main rotation items
+| `ItemsElement`      | `li`      | string | html markup for a rotation item
+| `pagination`        | `true`    | bool   | show pagination
+| `paginationNumbers` | `true`    | bool   | show pagination with numbers
+| `paginationClass`   | `rotation-pagination` | string | top level css class for pagination
+| `paginationItemClass` | `item` | string | css class for pagination item
+| `paginationCurrentItemClass` | `current`  | string | css class for pagination current item
+| `navControls`       | `true`    | bool   | show navigation controls
+| `navControlsClass`  | `rotation-nav-controls` | string | top level css class for navigation controls
+| `navControlsItemClass` | `item` | string | css class for navigation current item
+| `navControlsNextClass` | `next` | string | css class for next nav control
+| `navControlsPrevClass` | `prev` | string | css class for prev nav control
+| `navControlsNextText`  | `>>`   | string | css class for prev nav control
+| `navControlsPrevText`  | `<<`   | string | css class for prev nav control
+
+## API
+
 
 ## Contributing
 
