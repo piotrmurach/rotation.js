@@ -1,14 +1,16 @@
 rotation.js
 ===========
 
-Responsive and mobile enabled jQuery plugin to help create rotating content such as image carousel, slider or testimonials.
+Responsive and mobile enabled jQuery plugin to help create rotating content such as image carousel, slider or revolving testimonials.
 
-## Features
+## Main Features
 
-* Highly customisable
-* Semantic markup
-* CSS3 transition animation
+* Quick to setup and configure
+* Highly customisable, show/hide components
+* Semantic markup, place elements inside list items
+* CSS3 transition animations with JavasScript fallback
 * Mobile friendly
+* Keyboard support
 * Responsive support
 
 ## Usage
@@ -67,7 +69,7 @@ The following are all available options:
 | `interval`          | `4000`    | int    | rotation interval (ms)
 | `duration`          | `500`     | int    | transition speed (ms)
 | `itemsId`           | `rotator` | string | id for the main rotation items
-| `ItemsElement`      | `li`      | string | html markup for a rotation item
+| `itemsElement`      | `li`      | string | html markup for a rotation item
 | `pagination`        | `true`    | bool   | show pagination
 | `paginationNumbers` | `true`    | bool   | show pagination with numbers
 | `paginationClass`   | `rotation-pagination` | string | top level css class for pagination
@@ -78,8 +80,8 @@ The following are all available options:
 | `navControlsItemClass` | `item` | string | css class for navigation current item
 | `navControlsNextClass` | `next` | string | css class for next nav control
 | `navControlsPrevClass` | `prev` | string | css class for prev nav control
-| `navControlsNextText`  | `>>`   | string | css class for prev nav control
-| `navControlsPrevText`  | `<<`   | string | css class for prev nav control
+| `navControlsNextText`  | `>>`   | string | text for prev nav control
+| `navControlsPrevText`  | `<<`   | string | text for prev nav control
 
 ## API
 
