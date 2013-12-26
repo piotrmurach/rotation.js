@@ -1,0 +1,51 @@
+.rotation-container {
+  text-align: center;
+  width: 250px;
+  margin: 0 auto;
+}
+.rotation-container ul {
+  list-style: none;
+  padding: 0;
+}
+.rotation-main {
+  text-align: left;
+}
+.rotation-main li {
+  padding: 10px;
+  margin: 0;
+  background: #321936;
+  color: white;
+}
+.rotation-pagination li {
+  display: inline-block;
+  padding: 0;
+  margin-right: 1em;
+  background-color: #9B2E1C;
+  border-radius: 50%;
+}
+.rotation-pagination li a {
+  display: block;
+  text-decoration: none;
+  color: white;
+  padding: 0.2em 0.5em;
+  text-align: center;
+  border-radius: 50%;
+}
+.rotation-pagination li a:hover,
+.rotation-pagination li a.current {
+  background-color: #E46BC3;
+}
+.rotation-nav-controls .item {
+  display: inline-block;
+  background-color: #D92400;
+  border-radius: 20%;
+  padding: 0.2em 0.5em;
+  color: white;
+  text-decoration: none;
+}
+.rotation-nav-controls .item.prev {
+  float: left;
+}
+.rotation-nav-controls .item.next {
+  float: right;
+}
