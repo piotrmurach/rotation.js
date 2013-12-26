@@ -63,15 +63,16 @@ Finally, initialise the rotation plugin by passing options
 
 The following are all available options:
 
-| Option              | Default   | Type   | Description
-| -------             | --------- | ------ | --------
-| `autoRotate`        | `true`    | bool   | animate automatically
-| `interval`          | `4000`    | int    | rotation interval (ms)
-| `duration`          | `500`     | int    | transition speed (ms)
-| `itemsId`           | `rotator` | string | id for the main rotation items
-| `itemsElement`      | `li`      | string | html markup for a rotation item
-| `pagination`        | `true`    | bool   | show pagination
-| `paginationNumbers` | `true`    | bool   | show pagination with numbers
+| Option              | Default    | Type   | Description
+| -------             | ---------  | ------ | --------
+| `autoRotate`        | `true`     | bool   | animate automatically
+| `interval`          | `4000`     | int    | rotation interval (ms)
+| `duration`          | `500`      | int    | transition speed (ms)
+| `itemsId`           | `rotation` | string | id for the main rotation items
+| `itemsElement`      | `li`       | string | html markup for a rotation item
+| `keypress`          | `true`     | bool   | keyboard keypress navigation
+| `pagination`        | `true`     | bool   | show pagination
+| `paginationNumbers` | `true`     | bool   | show pagination with numbers
 | `paginationClass`   | `rotation-pagination` | string | top level css class for pagination
 | `paginationItemClass` | `item` | string | css class for pagination item
 | `paginationCurrentItemClass` | `current`  | string | css class for pagination current item
