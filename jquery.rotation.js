@@ -143,22 +143,27 @@
       }
 
       if (this.getOption("keypress")) {
-        $(document).on('keydown', function (event) {
-          // next
-          if (event.keyCode === 39) {
-            self.setOption("autoRotate", true);
-            self.rotate(1);
-          }
-          // prev
-          if (event.keyCode === 37) {
-            self.setOption("autoRotate", true);
-            self.rotate(-1);
-          }
-        });
-
+        this.bindKeyboardEvents();
       }
 
       // TODO: add more events including swipe
+    },
+
+    bindKeyboardEvents: function () {
+      var self = this;
+
+      $(document).on('keydown', function (event) {
+        // next
+        if (event.keyCode === 39) {
+          self.setOption("autoRotate", true);
+          self.rotate(1);
+        }
+        // prev
+        if (event.keyCode === 37) {
+          self.setOption("autoRotate", true);
+          self.rotate(-1);
+        }
+      });
     },
 
     bindMouseEvents: function () {
@@ -240,7 +245,7 @@
 
       if (this.getOption("pagination")) {
         this.setPaginationCurrentItem(direction);
-       }
+      }
 
       // callbacks
       this.getOption("afterTransition").call(this);
