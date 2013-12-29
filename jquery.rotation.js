@@ -29,7 +29,6 @@
     keypress: true,
     // main rotation id
     itemsId: 'rotation',
-    itemsElement: 'li',
     visibleItems: 1,
     scrollingStep: 1,
     // display controls
@@ -64,8 +63,7 @@
     this.container      = container;
     this.currentIndex   = 0;
     this.itemsContainer = $("#" + this.getOption("itemsId"), this.container);
-    this.items          = $(this.getOption("itemsElement"), this.itemsContainer);
-    this.itemWidth      = this.itemsContainer.width();
+    this.items          = $(this.itemsContainer).children();
 
     this.options.beforeInit.call(this);
 
@@ -106,12 +104,10 @@
     },
 
     init: function () {
-      var
-        element = this.getOption("itemsElement");
-
+      this.itemWidth  = this.itemsContainer.width();
       this.initIdsOnElements();
 
-      $(element + ":first", this.container).siblings(element).hide();
+      this.items.eq(0).siblings().hide();
 
       this.bindEvents();
       this.build();
