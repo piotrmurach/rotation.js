@@ -62,10 +62,19 @@
     afterInit: function () {},
     beforeTransition: function () {},
     afterTransition: function () {},
-    swipeLeft: function (e) {},
-    swipeRight: function (e) {},
-    swipeMove: function (e) {}
+    onSwipeLeft: function (e) {},
+    onSwipeRight: function (e) {},
+    onSwipeUp: function (e) {},
+    onSwipeDown: function (e) {},
+    onSwipe: function (e) {}
   };
+
+  function triggerCustomEvent(obj, eventType, event) {
+    var originalType = event.type;
+    event.type = eventType;
+    obj.trigger(event);
+    event.type = originalType;
+  }
 
   var Rotator = function (container, options) {
     var self = this;
@@ -289,6 +298,15 @@
                 events.push("swipeup");
               }
             }
+
+            $.each(events, function (index, eventType) {
+              var eventObject = $.Event(eventType, {
+                target: e.target,
+                swipestart: touchStart,
+                swipeend: touchEnd,
+              });
+              triggerCustomEvent(self.itemsContainer, eventType, eventObject);
+            });
           }
         };
 
