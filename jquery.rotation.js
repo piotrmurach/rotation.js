@@ -26,7 +26,15 @@
     stopOnHover: false,
     // mouse scroll content
     scrolling: true,
+    // enable keyboard events
     keypress: true,
+    // enable touch events
+    touch: true,
+    // it isn't a swipe over this time
+    touchDelay: 500,
+    //minimum amount of horizontal pixels for swipe event
+    touchMin: 30,
+    touchMax: 320,
     // main rotation id
     itemsId: 'rotation',
     visibleItems: 1,
@@ -52,7 +60,10 @@
     beforeInit: function () {},
     afterInit: function () {},
     beforeTransition: function () {},
-    afterTransition: function () {}
+    afterTransition: function () {},
+    swipeLeft: function (e) {},
+    swipeRight: function (e) {},
+    swipeMove: function (e) {}
   };
 
   var Rotator = function (container, options) {
@@ -64,6 +75,7 @@
     this.currentIndex   = 0;
     this.itemsContainer = $("#" + this.getOption("itemsId"), this.container);
     this.items          = $(this.itemsContainer).children();
+    this.touchSupported = 'ontouchend' in document;
 
     this.options.beforeInit.call(this);
 
@@ -142,6 +154,10 @@
         this.bindKeyboardEvents();
       }
 
+      if (this.getOption("touch")) {
+        this.bindTouchEvents();
+      }
+
       // TODO: add more events including swipe
     },
 
@@ -165,21 +181,123 @@
     bindMouseEvents: function () {
       var self = this;
 
-      $(self.container).
-        bind("mouseenter", function () {
+      this.itemsContainer.
+        on("mouseenter", function () {
           self.setOption("autoRotate", false);
         }).
-        bind("mouseleave", function () {
+        on("mouseleave", function () {
           self.setOption("autoRotate", true);
         });
     },
 
     bindScrolling: function () {
       var self = this;
-      $(this.container).bind("mousewheel", function (event) {
-        event.preventDefault();
+
+      this.itemsContainer.on("mousewheel", function (e) {
+        e.preventDefault();
         self.rotate(self.currentIndex+1);
       });
+    },
+
+    /*
+     * Move elemnts on swipe.
+     */
+    bindTouchEvents: function () {
+      var
+        self = this,
+        elapsedTime,
+        touchStart,
+        touchEnd,
+        touchDistance,
+        touchDeltaX,
+        touchDeltaY,
+        touchDelay = self.getOption("touchDelay"),
+        touchMin   = self.getOption("touchMin"),
+        touchMax   = self.getOption("touchMax"),
+        touchStartEvent = self.touchSupported ? 'touchstart' : 'mousedown',
+        touchStopEvent  = self.touchSupported ? 'touchend' : 'mouseout',
+        touchMoveEvent  = self.touchSupported ? 'touchmove' : 'mousemove',
+
+        chooseTouchEvent = function (e) {
+          if (e.pageX) { return e; }
+          return e.originalEvent.touches[0] || e.originalEvent.changedTouches[0];
+        },
+
+        createTouch = function (e) {
+          var touch = chooseTouchEvent(e);
+          return {
+            time:   new Date().getTime(),
+            touch:  touch,
+            coords: [touch.pageX, touch.pageY],
+            origin: $(e.target)
+          };
+        },
+
+        onTouchStart = function (e)  {
+          e.preventDefault();
+
+          touchStart = createTouch(e);
+        },
+
+        onTouchMove = function (e) {
+          if (!touchStart) {
+            return;
+          }
+
+          touchEnd = createTouch(e);
+
+          // prevent scrolling
+          if (Math.abs(touchStart.coords[0] - touchEnd.coords[0]) > 10) {
+            e.preventDefault();
+          }
+        },
+
+        onTouchEnd = function (e) {
+          e.preventDefault();
+
+          if (!touchStart || !touchEnd) {
+            return;
+          }
+
+          elapsedTime   = touchEnd.time - touchStart.time;
+          touchDeltaX   = Math.abs(touchStart.coords[0] - touchEnd.coords[0]);
+          touchDeltaY   = Math.abs(touchStart.coords[1] - touchEnd.coords[1]);
+          touchDistance = Math.sqrt(touchDeltaX * touchDeltaX + touchDeltaY * touchDeltaY);
+
+          // moved less than 15 pixels and touch duration is less than 100ms
+          // trigger tap event on the element
+          if (touchDistance < 15 && elapsedTime < 100)  {
+            touchStart.origin.trigger('click');
+            return;
+          }
+
+          if (elapsedTime < touchDelay &&
+              touchDistance >= touchMin &&
+              touchDistance <= touchMax) {
+
+            var events = ['swipe'];
+
+            if (touchDeltaX >= touchMin && touchDeltaY < touchMin) {
+              if (touchStart.coords[0] > touchEnd.coords[0]) {
+                events.push("swipeleft");
+                self.rotate(-1);
+              } else {
+                events.push("swiperight");
+                self.rotate(1);
+              }
+            } else if(touchDeltaY >= touchMin && touchDeltaX < touchMin) {
+              if (touchStart.coords[1] < touchEnd.coords[1]) {
+                events.push("swipedown");
+              } else {
+                events.push("swipeup");
+              }
+            }
+          }
+        };
+
+      self.itemsContainer.on(touchStartEvent, onTouchStart);
+      self.itemsContainer.on(touchStopEvent, onTouchEnd);
+      self.itemsContainer.on(touchMoveEvent, onTouchMove);
     },
 
     /*
