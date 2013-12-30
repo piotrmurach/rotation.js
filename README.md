@@ -38,7 +38,7 @@ Then add semantic markup to describe your content, any item that requires rotati
 
 ```html
   <div class="rotation-container">
-    <ul id="rotator" class="rotation-list">
+    <ul id="rotation" class="rotation-list">
       <li><blockquote><p>Morbi at odio .... </p></blockquote></li>
       <li><blockquote><p>Morbi at odio .... </p></blockquote></li>
       <li><blockquote><p>Morbi at odio .... </p></blockquote></li>
@@ -49,7 +49,7 @@ Then add semantic markup to describe your content, any item that requires rotati
 Finally, initialize the **Rotation** plugin
 
 ```javascript
-  $(".rotation-container").rotate();
+  $(".rotation-container").rotation();
 ```
 
 ## Options
@@ -107,7 +107,7 @@ There are number of custom events emitted by **Rotation** that you can listen fo
 You can either register callback to listen for the custom event with `on` method:
 
 ```javascript
-    $(".rotation-container").rotate()
+    $(".rotation-container").rotation()
     .on("swipeleft", function (e) {
       console.log(e.swipestart.coords);
     })
@@ -116,7 +116,7 @@ You can either register callback to listen for the custom event with `on` method
 or by passing it to the constructor:
 
 ```javascript
-    $(".rotation-container").rotate({
+    $(".rotation-container").rotation({
       onSwipeLeft: function (e) { ... }
     })
 ```
