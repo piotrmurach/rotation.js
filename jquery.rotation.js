@@ -69,7 +69,7 @@
     onSwipe: function (e) {}
   };
 
-  var Rotator = function (container, options) {
+  var Rotation = function (container, options) {
     var self = this;
     // merge defaults
     this.options = $.extend({}, defaults, options);
@@ -97,9 +97,9 @@
     };
   };
 
-  Rotator.VERSION = '0.3.0';
+  Rotation.VERSION = '0.3.0';
 
-  $.extend(Rotator.prototype, {
+  $.extend(Rotation.prototype, {
 
     getOption: function (option) {
       return this.options[option];
@@ -520,11 +520,11 @@
 
   });
 
-  $.fn.rotate = function (options) {
+  $.fn.rotation = function (options) {
     return this.each(function () {
       var container = $(this);
 
-      new Rotator(container, options);
+      new Rotation(container, options);
     });
   };
 
