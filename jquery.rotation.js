@@ -292,9 +292,10 @@
           }
         };
 
-      self.itemsContainer.on(touchStartEvent, onTouchStart);
-      self.itemsContainer.on(touchStopEvent, onTouchEnd);
-      self.itemsContainer.on(touchMoveEvent, onTouchMove);
+      self.itemsContainer
+        .on(touchStartEvent, onTouchStart)
+        .on(touchMoveEvent, onTouchMove)
+        .on(touchStopEvent, onTouchEnd);
     },
 
     /*
