@@ -1,4 +1,4 @@
-rotation.js
+Rotation.js
 ===========
 
 Responsive and mobile enabled jQuery plugin to help create rotating content such as image carousel, slider or revolving testimonials.
@@ -9,7 +9,7 @@ Responsive and mobile enabled jQuery plugin to help create rotating content such
 * Highly customisable, show/hide components
 * Semantic markup, place elements inside list items
 * CSS3 transition animations with JavasScript fallback
-* Mobile friendly
+* Mobile friendly with touch support and mouse fallback
 * Keyboard support
 * Responsive support
 
@@ -27,28 +27,29 @@ and then include `jquery.rotation.js` like so
   <script src="jquery.rotation.js"></script>
 ```
 
+and finally add basic stylesheet `jquery.rotation.css`
+
+```
+  <link rel="stylesheet" href="jquery.rotation.css">
+```
+
+### Markup
 Then add semantic markup to describe your content, any item that requires rotation should be placed inside separate list element. For instance, to rotate quotes one can write markup such as
 
 ```html
-  <div id="rotator-container">
-    <ul id="rotator">
-      <li>
-        <blockquote>
-          <p>Morbi at odio .... </p>
-          <div class="author">Piotr Murach</div>
-        </blockquote>
-      </li>
+  <div class="rotation-container">
+    <ul id="rotator" class="rotation-list">
+      <li><blockquote><p>Morbi at odio .... </p></blockquote></li>
+      <li><blockquote><p>Morbi at odio .... </p></blockquote></li>
+      <li><blockquote><p>Morbi at odio .... </p></blockquote></li>
       ...
     </ul>
   </div>
 ```
-Finally, initialise the rotation plugin by passing options
+Finally, initialize the rotation plugin by passing options
 
 ```javascript
-  $("#rotator-container").rotate({
-    autoRotate: true,
-    paginationNumbers: true
-  });
+  $(".rotation-container").rotate();
 ```
 
 ## Examples
@@ -61,7 +62,7 @@ Finally, initialise the rotation plugin by passing options
 
 ## Options
 
-The following are all available options:
+There are many options that you can specify for any **Rotation** instance. These options can be provided via constructor or API.
 
 | Option              | Default    | Type   | Description
 | -------             | ---------  | ------ | --------
@@ -69,8 +70,11 @@ The following are all available options:
 | `interval`          | `4000`     | int    | rotation interval (ms)
 | `duration`          | `500`      | int    | transition speed (ms)
 | `itemsId`           | `rotation` | string | id for the main rotation items
-| `itemsElement`      | `li`       | string | html markup for a rotation item
 | `keypress`          | `true`     | bool   | keyboard keypress navigation
+| `touch`             | `true`     | bool   | enable touch events
+| `touchMin`          | `30`       | int    | minimum amount of pixels to detect swipe gesture
+| `touchMax`          | `320`      | int    | maximum amount of pixels to stop swipe gesture
+| `touchDelay`        | `500`      | int    | swipe gesture maximum delay
 | `pagination`        | `true`     | bool   | show pagination
 | `paginationNumbers` | `true`     | bool   | show pagination with numbers
 | `paginationClass`   | `rotation-pagination` | string | top level css class for pagination
