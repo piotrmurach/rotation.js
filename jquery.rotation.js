@@ -1,5 +1,5 @@
 /*
- * rotation.js 0.2.0
+ * rotation.js 0.4.0
  *
  * (c) 2013 Piotr Murach
  *
@@ -97,7 +97,7 @@
     };
   };
 
-  Rotation.VERSION = '0.3.0';
+  Rotation.VERSION = '0.4.0';
 
   $.extend(Rotation.prototype, {
 
