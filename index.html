@@ -9,11 +9,12 @@
 
   <body>
     <div class="rotation-container">
-      <ul id="rotation">
+      <ul id="rotation" class="rotation-list">
         <li>
+          <h2>Monty Python and the Holy Grail</h2>
           <blockquote>
-            <p>Morbi at odio iaculis, pharetra metus a, sodales metus. Nulla semper interdum luctus. Mauris quis aliquet metus. Vestibulum suscipit odio id ligula vulputate, eget scelerisque nibh tempus. Donec sagittis lacus magna.</p>
-            <div class="author">Piotr Murach</div>
+            <p>Stop. Who approacheth the Bridge of Death must answer me these questions three, ere the other side he see.</p>
+            <div class="author">Bridgekeeper</div>
           </blockquote>
         </li>
         <li>
@@ -38,9 +39,11 @@
     </div>
 
     <script>
-      $(".rotation-container").rotate({
+      $(".rotation-container").rotation({
         autoRotate: true,
         paginationNumbers: true
+      }).on("swipeleft", function (e) {
+        console.log('swipe left');
       });
     </script>
   </body>
