@@ -14,9 +14,9 @@
     // animate automatically
     autoRotate: true,
     // rotation interval (ms)
-    interval: 4000,
+    interval: 3000,
     // transition speed (ms)
-    duration: 500,
+    duration: 300,
     // transition easing
     transitionIn: 'fadeIn',
     transitionOut: 'fadeOut',
@@ -148,14 +148,14 @@
     bindKeyboardEvents: function () {
       var self = this;
 
-      $(document).on('keydown', function (event) {
+      $(document).on('keydown', function (e) {
         // next
-        if (event.keyCode === 39) {
+        if (e.keyCode === 39) {
           self.setOption("autoRotate", true);
           self.rotate(1);
         }
         // prev
-        if (event.keyCode === 37) {
+        if (e.keyCode === 37) {
           self.setOption("autoRotate", true);
           self.rotate(-1);
         }
@@ -331,8 +331,8 @@
       });
       item.appendTo(navContainer);
 
-      navContainer.children().on('click', function (event) {
-        event.preventDefault();
+      navContainer.children().on('click', function (e) {
+        e.preventDefault();
         var direction = +$(this).data('direction');
 
         self.setOption("autoRotate", true);
@@ -370,8 +370,8 @@
       navItems = $('li', paginationContainer).children();
       navItems.eq(0).addClass(this.getOption("paginationCurrentItemClass"));
 
-      navItems.on('click touchstart', function (event) {
-        event.preventDefault();
+      navItems.on('click touchstart', function (e) {
+        e.preventDefault();
         var
           currentElement = $(this),
           currentClass   = self.getOption("paginationCurrentItemClass"),
