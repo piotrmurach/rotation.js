@@ -32,8 +32,9 @@
     touch: true,
     // it isn't a swipe over this time
     touchDelay: 500,
-    //minimum amount of horizontal pixels for swipe event
+    //minimum amount of pixels for swipe gesture
     touchMin: 30,
+    //maximum amount of pixels for swipe gesture
     touchMax: 320,
     // main rotation id
     itemsId: 'rotation',
@@ -157,8 +158,6 @@
       if (this.getOption("touch")) {
         this.bindTouchEvents();
       }
-
-      // TODO: add more events including swipe
     },
 
     bindKeyboardEvents: function () {
@@ -167,12 +166,10 @@
       $(document).on('keydown', function (e) {
         // next
         if (e.keyCode === 39) {
-          self.setOption("autoRotate", true);
           self.rotate(1);
         }
         // prev
         if (e.keyCode === 37) {
-          self.setOption("autoRotate", true);
           self.rotate(-1);
         }
       });
