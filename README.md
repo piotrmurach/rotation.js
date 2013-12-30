@@ -46,19 +46,11 @@ Then add semantic markup to describe your content, any item that requires rotati
     </ul>
   </div>
 ```
-Finally, initialize the rotation plugin by passing options
+Finally, initialize the **Rotation** plugin
 
 ```javascript
   $(".rotation-container").rotate();
 ```
-
-## Examples
-
-1. Testimonials rotation:
-
-2. Image Carousel
-
-3. Twitter feed rotation
 
 ## Options
 
@@ -88,7 +80,54 @@ There are many options that you can specify for any **Rotation** instance. These
 | `navControlsNextText`  | `>>`   | string | text for prev nav control
 | `navControlsPrevText`  | `<<`   | string | text for prev nav control
 
-## API
+### Constructor
+
+```javascript
+
+```
+### API
+
+## Events
+
+There are number of custom events emitted by **Rotation** that you can listen for.
+
+| Event         | Description
+| -------       | --------
+| `swipe`       | when swipe gesture is performed, with swipestart & swipeend custom objects
+| `swipeleft`   | when swipe left
+| `swiperight`  | when swipe right
+| `swipeup`     | when swipe up
+| `swipedown`   | when swipe down
+| `scrollstart` | when mouse scroll is started
+| `scrollstop`  | when mouse scroll is finished
+| `play`        | when auto rotation starts/resumes
+| `pause`       | when auto rotation pauses
+| `stop`        | when auto rotation is stopped
+
+You can either register callback to listen for the custom event with `on` method:
+
+```javascript
+    $(".rotation-container").rotate()
+    .on("swipeleft", function (e) {
+      console.log(e.swipestart.coords);
+    })
+```
+
+or by passing it to the constructor:
+
+```javascript
+    $(".rotation-container").rotate({
+      onSwipeLeft: function (e) { ... }
+    })
+```
+
+## Examples
+
+### 1. Testimonials rotation:
+
+### 2. Image Carousel
+
+### 3. Twitter feed rotation
 
 
 ## Contributing
