@@ -468,7 +468,6 @@
         e.preventDefault();
         var direction = +$(this).data('direction');
 
-        self.setOption("autoRotate", true);
         self.rotate(direction);
       });
     },
@@ -515,7 +514,6 @@
           parent('li').siblings('li').find('a.'+currentClass).data('index');
         direction =  pageIndex - currentIndex;
 
-        self.setOption("autoRotate", true);
         self.rotate(direction);
       });
     }
