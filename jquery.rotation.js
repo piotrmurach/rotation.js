@@ -142,19 +142,15 @@
     },
 
     bindEvents: function () {
-      var self = this;
 
-      $(window).on("resize", function () {
-        /* self.init();
-        self.rotate(0); */
-      });
+      this.bindResizeEvent();
 
       if (this.getOption("pauseOnHover")) {
-        self.bindMouseEvents();
+        this.bindMouseEvents();
       }
 
       if (this.getOption("scrolling")) {
-        self.bindScrolling();
+        this.bindScrolling();
       }
 
       if (this.getOption("keypress")) {
@@ -164,6 +160,15 @@
       if (this.getOption("touch")) {
         this.bindTouchEvents();
       }
+    },
+
+    bindResizeEvent: function () {
+      var self = this;
+
+      $(window).on("resize", function () {
+        self.init();
+        self.rotate(0);
+      });
     },
 
     bindKeyboardEvents: function () {
