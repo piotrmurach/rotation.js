@@ -69,13 +69,6 @@
     onSwipe: function (e) {}
   };
 
-  function triggerCustomEvent(obj, eventType, event) {
-    var originalType = event.type;
-    event.type = eventType;
-    obj.trigger(event);
-    event.type = originalType;
-  }
-
   var Rotator = function (container, options) {
     var self = this;
     // merge defaults
@@ -115,6 +108,10 @@
     setOption: function (option, value) {
       this.options[option] = value;
       return value;
+    },
+
+    triggerCustomEvent: function (obj, event) {
+      obj.trigger(event);
     },
 
     itemsCount: function () {
@@ -305,7 +302,7 @@
                 swipestart: touchStart,
                 swipeend: touchEnd,
               });
-              triggerCustomEvent(self.itemsContainer, eventType, eventObject);
+              self.triggerCustomEvent(self.itemsContainer, eventObject);
             });
           }
         };
@@ -391,6 +388,7 @@
         this.auto = setInterval(function () {
           self.rotate();
         }, this.getOption("interval"));
+        self.triggerCustomEvent(self.itemsContainer, $.Event('play'));
       }
     },
 
@@ -399,6 +397,7 @@
 
       if (self.auto) {
         self.auto = clearInterval(self.auto);
+        self.triggerCustomEvent(self.itemsContainer, $.Event('pause'));
       }
     },
 
