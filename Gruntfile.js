@@ -16,7 +16,7 @@ module.exports = function (grunt) {
     },
     jshint: {
       build: {
-        src: ["jquery.rotation.js", "Gruntfile.js", "test/**/*.js"],
+        src: ["jquery.rotation.js", "Gruntfile.js", "test/*.js"],
         jshintrc: true
       }
     },
