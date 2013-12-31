@@ -3,48 +3,45 @@
   <head>
     <link rel="stylesheet" href="jquery.rotation.css">
 
-    <script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
+    <script src="test/vendor/jquery.js"></script>
     <script src="jquery.rotation.js"></script>
   </head>
 
   <body>
-    <div class="rotation-container">
-      <ul id="rotation" class="rotation-list">
-        <li>
-          <h2>Monty Python and the Holy Grail</h2>
-          <blockquote>
-            <p>Stop. Who approacheth the Bridge of Death must answer me these questions three, ere the other side he see.</p>
-            <div class="author">Bridgekeeper</div>
-          </blockquote>
-        </li>
-        <li>
-          <blockquote>
-            <p>Morbi at odio iaculis, pharetra metus a, sodales metus. Nulla semper interdum luctus. Mauris quis aliquet metus. Vestibulum suscipit odio id ligula vulputate, eget scelerisque nibh tempus. Donec sagittis lacus magna.</p>
-            <div class="author">Darryl Pinto</div>
-          </blockquote>
-        </li>
-        <li>
-          <blockquote>
-            <p>Morbi at odio iaculis, pharetra metus a, sodales metus. Nulla semper interdum luctus. Mauris quis aliquet metus. Vestibulum suscipit odio id ligula vulputate, eget scelerisque nibh tempus. Donec sagittis lacus magna.</p>
-            <div class="author">Martin Davis</div>
-          </blockquote>
-        </li>
-        <li>
-          <blockquote>
-            <p>Morbi at odio iaculis, pharetra metus a, sodales metus. Nulla semper interdum luctus. Mauris quis aliquet metus. Vestibulum suscipit odio id ligula vulputate, eget scelerisque nibh tempus. Donec sagittis lacus magna.</p>
-            <div class="author">Chris Lewis</div>
-          </blockquote>
-        </li>
-      </ul>
-    </div>
+    <ul id="rotation" class="rotation-list" data-rotation-options="">
+      <li>
+        <h2>Monty Python and the Holy Grail</h2>
+        <blockquote>
+          <p>Stop. Who approacheth the Bridge of Death must answer me these questions three, ere the other side he see.</p>
+          <div class="author">Bridgekeeper</div>
+        </blockquote>
+      </li>
+      <li>
+        <blockquote>
+          <p>Morbi at odio iaculis, pharetra metus a, sodales metus. Nulla semper interdum luctus. Mauris quis aliquet metus. Vestibulum suscipit odio id ligula vulputate, eget scelerisque nibh tempus. Donec sagittis lacus magna.</p>
+          <div class="author">Darryl Pinto</div>
+        </blockquote>
+      </li>
+      <li>
+        <blockquote>
+          <p>Morbi at odio iaculis, pharetra metus a, sodales metus. Nulla semper interdum luctus. Mauris quis aliquet metus. Vestibulum suscipit odio id ligula vulputate, eget scelerisque nibh tempus. Donec sagittis lacus magna.</p>
+          <div class="author">Martin Davis</div>
+        </blockquote>
+      </li>
+      <li>
+        <blockquote>
+          <p>Morbi at odio iaculis, pharetra metus a, sodales metus. Nulla semper interdum luctus. Mauris quis aliquet metus. Vestibulum suscipit odio id ligula vulputate, eget scelerisque nibh tempus. Donec sagittis lacus magna.</p>
+          <div class="author">Chris Lewis</div>
+        </blockquote>
+      </li>
+    </ul>
 
     <script>
-      $(".rotation-container").rotation({
-        autoRotate: true,
-        paginationNumbers: true
-      }).on("swipeleft", function (e) {
+      $("#rotation").rotation()
+      .on("swipeleft", function (e) {
         console.log('swipe left');
       });
+
     </script>
   </body>
 </html>
