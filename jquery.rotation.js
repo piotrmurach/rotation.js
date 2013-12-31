@@ -79,7 +79,7 @@
 
     this.options = $.extend({}, defaults, options);
 
-    markup = $('<div/>', {'class': this.getOption("containerClass")});
+    markup = $('<section/>', {'class': this.getOption("containerClass")});
 
     this._defaults       = defaults;
     this._name           = name;
@@ -501,7 +501,7 @@
           container = this.$container,
           navContainer, item;
 
-      navContainer = $('<div/>', {'class': this.getOption("navControlsClass")});
+      navContainer = $('<nav/>', {'class': this.getOption("navControlsClass")});
       navContainer.appendTo(container);
 
       item = $('<a/>', {
