@@ -91,6 +91,7 @@
 
     this.options.afterInit.call(this);
 
+    // public API
     return {
       play: function () {
         self.play();
@@ -98,6 +99,22 @@
 
       pause: function () {
         self.pause();
+      },
+
+      itemsCount: function () {
+        return self.itemsCount();
+      },
+
+      current: function () {
+        return self.currentIndex;
+      },
+
+      next: function () {
+        self.rotate(1);
+      },
+
+      previous: function () {
+        self.rotate(-1);
       }
     };
   };
