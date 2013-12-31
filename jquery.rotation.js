@@ -42,6 +42,7 @@
     itemsId: 'rotation',
     visibleItems: 1,
     scrollingStep: 1,
+    responsiveDelay: 150,
     // display controls
     pauseControl: true,
     pauseControlContainer: 'rotation-play-pause',
@@ -145,14 +146,14 @@
     },
 
     init: function () {
+      this.$window      = $(window);
+      this.windowHeight = this.$window.height();
+      this.windowWidth  = this.$window.width();
       this.itemWidth  = this.itemsContainer.width();
       this.initIdsOnElements();
 
       this.items.eq(0).siblings().hide();
 
-      this.build();
-      this.bindEvents();
-      this.play();
     },
 
     initIdsOnElements: function () {
@@ -185,11 +186,24 @@
     },
 
     bindResizeEvent: function () {
-      var self = this;
+      var self = this,
+          timer;
 
-      $(window).on("resize", function () {
-        self.init();
-        self.rotate(0);
+      self.$window.on("resize", function (e) {
+        if (e.originalEvent) {
+          var width = self.$window.width(),
+              height = self.$window.height();
+
+          if (width !== self.windowWidth || height !== self.windowHeight) {
+            self.windowWidth = width;
+            self.windowHeight = height;
+            clearTimeout(timer);
+            timer = setTimeout(function () {
+              self.init();
+              self.rotate(0);
+            }, self.getOption("responsiveDelay"));
+          }
+        }
       });
     },
 
