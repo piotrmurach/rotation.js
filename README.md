@@ -38,19 +38,17 @@ and finally add basic stylesheet `jquery.rotation.css`
 Then add semantic markup to describe your content, any item that requires rotation should be placed inside separate list element. For instance, to rotate quotes one can write markup such as
 
 ```html
-  <div class="rotation-container">
-    <ul id="rotation" class="rotation-list">
-      <li><blockquote><p>Morbi at odio .... </p></blockquote></li>
-      <li><blockquote><p>Morbi at odio .... </p></blockquote></li>
-      <li><blockquote><p>Morbi at odio .... </p></blockquote></li>
-      ...
-    </ul>
-  </div>
+<ul id="rotation" class="rotation-list">
+  <li><blockquote><p>Morbi at odio .... </p></blockquote></li>
+  <li><blockquote><p>Morbi at odio .... </p></blockquote></li>
+  <li><blockquote><p>Morbi at odio .... </p></blockquote></li>
+  ...
+</ul>
 ```
 Finally, initialize the **Rotation** plugin
 
 ```javascript
-  $(".rotation-container").rotation();
+$("#rotation").rotation();
 ```
 
 ## Options
@@ -87,18 +85,18 @@ There are many options that you can specify for any **Rotation** instance. These
 The wide set of defaults provided by the **Rotation** can be easily extended by using object literal in the following ways:
 
 ```javascript
-  // create instance
-  var rotation = new Rotation($(".rotation-container"), {
-    autoRotate: true
-  });
+// create instance
+var rotation = new Rotation($("#rotation"), {
+  autoRotate: true
+});
 
-  // or set the params on jquery instance
-  $(".rotation-container").rotation({
-    autoRotate: true
-  });
+// or set the params on jquery instance
+$("#rotation").rotation({
+  autoRotate: true
+});
 
-  // or modify global default params
-  Rotation.defeaults.autoRotate = true;
+// or modify global default params
+Rotation.defeaults.autoRotate = true;
 ```
 
 ### API
@@ -125,18 +123,18 @@ There are number of custom events emitted by **Rotation** that you can listen fo
 You can either register callback to listen for the custom event with `on` method:
 
 ```javascript
-    $(".rotation-container").rotation()
-    .on("swipeleft", function (e) {
-      console.log(e.swipestart.coords);
-    })
+$("#rotation").rotation().
+on("swipeleft", function (e) {
+  console.log(e.swipestart.coords);
+})
 ```
 
 or by passing it to the constructor:
 
 ```javascript
-    $(".rotation-container").rotation({
-      onSwipeLeft: function (e) { ... }
-    })
+$("#rotation").rotation({
+  onSwipeLeft: function (e) { ... }
+})
 ```
 
 ## Examples
