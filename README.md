@@ -81,11 +81,25 @@ There are many options that you can specify for any **Rotation** instance. These
 | `navControlsNextText`  | `>>`   | string | text for prev nav control
 | `navControlsPrevText`  | `<<`   | string | text for prev nav control
 
-### Constructor
+### Initialization
+
+The wide set of defaults provided by the **Rotation** can be easily extended by using object literal in the following ways:
 
 ```javascript
+  // create instance
+  var rotation = new Rotation($(".rotation-container"), {
+    autoRotate: true
+  });
 
+  // or set the params on jquery instance
+  $(".rotation-container").rotation({
+    autoRotate: true
+  });
+
+  // or modify global default params
+  Rotation.defeaults.autoRotate = true;
 ```
+
 ### API
 
 ### Metadata
