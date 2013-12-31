@@ -8,7 +8,9 @@
 ;(function ($, window, document, undefined) {
   'use strict';
 
-  var defaults = {
+  var
+    name = 'rotation',
+    defaults = {
     // String: default namespace used for classes and events
     namespace: 'rotation',
     // animate automatically
@@ -71,11 +73,14 @@
 
   var Rotation = function (container, options) {
     var self = this;
-    // merge defaults
-    this.options = $.extend({}, defaults, options);
 
+    this._defaults      = defaults;
+    this._name          = name;
     this.container      = container;
+    this.$container     = $(container);
+    this.metadata       = this.$container.data("rotation-options");
     this.currentIndex   = 0;
+    this.options        = $.extend({}, defaults, options, this.metadata);
     this.itemsContainer = $("#" + this.getOption("itemsId"), this.container);
     this.items          = $(this.itemsContainer).children();
     this.touchSupported = 'ontouchend' in document;
@@ -128,8 +133,8 @@
 
       this.items.eq(0).siblings().hide();
 
-      this.bindEvents();
       this.build();
+      this.bindEvents();
       this.play();
     },
 
@@ -525,12 +530,19 @@
 
   });
 
-  $.fn.rotation = function (options) {
-    return this.each(function () {
-      var container = $(this);
+  Rotation.defaults = Rotation.prototype.defaults;
 
-      new Rotation(container, options);
+  $.fn[name] = function (options) {
+    return this.each(function () {
+      var container = this,
+          instance = $.data(container, name);
+
+      if (!instance) {
+        $.data(container, name, new Rotation(container, options));
+      }
     });
   };
+
+  window.Rotation = Rotation;
 
 })(jQuery, window, document);
