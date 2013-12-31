@@ -43,6 +43,7 @@
     visibleItems: 1,
     scrollingStep: 1,
     responsiveDelay: 150,
+    containerClass: 'rotation-container',
     // display controls
     pauseControl: true,
     pauseControlContainer: 'rotation-play-pause',
@@ -73,22 +74,35 @@
   };
 
   var Rotation = function (container, options) {
-    var self = this;
+    var
+      self = this, markup;
 
-    this._defaults      = defaults;
-    this._name          = name;
-    this.container      = container;
-    this.$container     = $(container);
-    this.metadata       = this.$container.data("rotation-options");
-    this.currentIndex   = 0;
-    this.options        = $.extend({}, defaults, options, this.metadata);
-    this.itemsContainer = $("#" + this.getOption("itemsId"), this.container);
-    this.items          = $(this.itemsContainer).children();
-    this.touchSupported = 'ontouchend' in document;
+    this.options = $.extend({}, defaults, options);
+
+    markup = $('<div/>', {'class': this.getOption("containerClass")});
+
+    this._defaults       = defaults;
+    this._name           = name;
+    this.currentIndex    = 0;
+    this.isAnimating     = false; // control animation
+    this.touchSupported  = 'ontouchend' in document;
+    this.itemsContainer  = container;
+    this.$itemsContainer = $(this.itemsContainer);
+    this.$items          = this.$itemsContainer.children();
+    this.$container      = this.$itemsContainer.wrap(markup).parent();
+    this.metadata        = this.$container.data("rotation-options");
+
+    // remove whitespace
+    this.$items.detach();
+    this.$itemsContainer.empty();
+    this.$itemsContainer.append(this.$items);
 
     this.options.beforeInit.call(this);
 
     this.init();
+    this.build();
+    this.bindEvents();
+    this.play();
 
     this.options.afterInit.call(this);
 
@@ -138,22 +152,24 @@
     },
 
     itemsCount: function () {
-      return this.items.length;
+      return this.$items.length;
     },
 
     getItemByIndex: function (index) {
-      return this.items.eq(index);
+      return this.$items.eq(index);
     },
 
+    /*
+     * Initialize
+     */
     init: function () {
       this.$window      = $(window);
       this.windowHeight = this.$window.height();
       this.windowWidth  = this.$window.width();
-      this.itemWidth  = this.itemsContainer.width();
+      this.itemWidth    = this.$itemsContainer.width();
       this.initIdsOnElements();
 
-      this.items.eq(0).siblings().hide();
-
+      this.$items.eq(0).siblings().hide();
     },
 
     initIdsOnElements: function () {
@@ -225,7 +241,7 @@
     bindMouseEvents: function () {
       var self = this;
 
-      this.itemsContainer.
+      this.$itemsContainer.
         on("mouseenter", function () {
           self.setOption("autoRotate", false);
         }).
@@ -237,7 +253,7 @@
     bindScrolling: function () {
       var self = this;
 
-      this.itemsContainer.on("mousewheel", function (e) {
+      this.$itemsContainer.on("mousewheel", function (e) {
         e.preventDefault();
         self.rotate(self.currentIndex+1);
       });
@@ -343,12 +359,12 @@
                 swipestart: touchStart,
                 swipeend: touchEnd,
               });
-              self.triggerCustomEvent(self.itemsContainer, eventObject);
+              self.triggerCustomEvent(self.$itemsContainer, eventObject);
             });
           }
         };
 
-      self.itemsContainer
+      self.$itemsContainer
         .on(touchStartEvent, onTouchStart)
         .on(touchMoveEvent, onTouchMove)
         .on(touchStopEvent, onTouchEnd);
@@ -386,7 +402,7 @@
       element = this.getItemByIndex(currentIndex);
       distance = direction ? direction * self.itemWidth : self.itemWidth;
 
-      self.itemsContainer.stop();
+      self.$itemsContainer.stop();
 
       $.when(
         $(previousElement).css({
@@ -429,7 +445,7 @@
         this.auto = setInterval(function () {
           self.rotate();
         }, this.getOption("interval"));
-        self.triggerCustomEvent(self.itemsContainer, $.Event('play'));
+        self.triggerCustomEvent(self.$itemsContainer, $.Event('play'));
       }
     },
 
@@ -438,7 +454,7 @@
 
       if (self.auto) {
         self.auto = clearInterval(self.auto);
-        self.triggerCustomEvent(self.itemsContainer, $.Event('pause'));
+        self.triggerCustomEvent(self.$itemsContainer, $.Event('pause'));
       }
     },
 
@@ -482,12 +498,10 @@
       if (this.itemsCount() <= 1) { return; }
 
       var self = this,
-          container = this.container,
+          container = this.$container,
           navContainer, item;
 
-      navContainer = $('<div/>', {
-        'class': this.getOption("navControlsClass")
-      });
+      navContainer = $('<div/>', {'class': this.getOption("navControlsClass")});
       navContainer.appendTo(container);
 
       item = $('<a/>', {
@@ -522,7 +536,7 @@
 
       var
         self = this,
-        container = this.container,
+        container = this.$container,
         paginationContainer, item, link, i, navItems;
 
       paginationContainer = $('<ul/>', {'class': this.getOption("paginationClass")});
