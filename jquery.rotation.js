@@ -62,15 +62,15 @@
     paginationItemClass: 'item',
     paginationCurrentItemClass: 'current',
     // callbacks
-    beforeInit: function () {},
-    afterInit: function () {},
-    beforeTransition: function () {},
-    afterTransition: function () {},
-    onSwipeLeft: function (e) {},
-    onSwipeRight: function (e) {},
-    onSwipeUp: function (e) {},
-    onSwipeDown: function (e) {},
-    onSwipe: function (e) {}
+    beforeInit: $.noop,
+    afterInit: $.noop,
+    beforeTransition: $.noop,
+    afterTransition: $.noop,
+    onSwipeLeft: $.noop,
+    onSwipeRight: $.noop,
+    onSwipeUp: $.noop,
+    onSwipeDown: $.noop,
+    onSwipe: $.noop
   };
 
   var Rotation = function (container, options) {
@@ -382,7 +382,7 @@
 
       if (direction) { this.pause(); }
 
-      this.getOption("beforeTransition").call(this);
+      this.getOption("beforeTransition").call(this, this.currentIndex);
 
       var
         currentIndex     = this.currentIndex,
@@ -432,7 +432,7 @@
       }
 
       // callbacks
-      this.getOption("afterTransition").call(this);
+      this.getOption("afterTransition").call(this, this.currentIndex);
       if (callback && (typeof callback === 'function')) { callback(); }
 
       if (direction) { this.play(); }
