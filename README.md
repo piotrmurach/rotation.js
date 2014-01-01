@@ -5,10 +5,10 @@ Responsive and mobile enabled jQuery plugin to help create rotating content such
 
 ## Main Features
 
-* Quick to setup and configure
+* Quick to setup
 * Highly configurable
+* Semantic and minimal markup
 * HTML5 Metadata support
-* Semantic markup
 * CSS3 transition animations with JavasScript fallback
 * Mobile friendly with touch support and mouse fallback
 * Keyboard support
