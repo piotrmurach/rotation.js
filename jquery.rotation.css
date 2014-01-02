@@ -24,16 +24,16 @@
   height: 100%;
   width: 100%;
 }
-.rotation-nav-controls .item {
+.rotation-nav-controls .rotation-item {
   position: absolute;
   z-index: 1000;
   bottom: 2%;
   width: 5%;
 }
-.rotation-nav-controls .item.prev {
+.rotation-nav-controls .rotation-prev {
   left: 5%;
 }
-.rotation-nav-controls .item.next {
+.rotation-nav-controls .rotation-next {
   right: 5%;
 }
 .rotation-pagination {

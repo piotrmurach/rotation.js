@@ -38,7 +38,7 @@
   letter-spacing: 5px;
   padding-top: 1em;
 }
-.rotation-nav-controls .item {
+.rotation-nav-controls .rotation-item {
   position: absolute;
   z-index: 1000;
   top: 50%;
@@ -57,12 +57,12 @@
   -ms-transform: rotate(45deg);
   transform: rotate(45deg);
 }
-.rotation-nav-controls .item.prev {
+.rotation-nav-controls .rotation-prev {
   left: 5%;
   border-right: none;
   border-top: none;
 }
-.rotation-nav-controls .item.next {
+.rotation-nav-controls .rotation-next {
   right: 5%;
   border-left: none;
   border-bottom: none;
