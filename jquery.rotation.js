@@ -16,7 +16,7 @@
     // animate automatically
     autoRotate: true,
     // rotation interval (ms)
-    interval: 3000,
+    interval: 4000,
     // transition speed (ms)
     duration: 300,
     // transition easing
@@ -42,6 +42,7 @@
     itemsId: 'rotation',
     visibleItems: 1,
     scrollingStep: 1,
+    responsive: true,
     responsiveDelay: 150,
     containerClass: 'rotation-container',
     // display controls
@@ -182,7 +183,9 @@
 
     bindEvents: function () {
 
-      this.bindResizeEvent();
+      if (this.getOption("responsive")) {
+        this.bindResizeEvent();
+      }
 
       if (this.getOption("pauseOnHover")) {
         this.bindMouseEvents();

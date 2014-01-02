@@ -66,6 +66,7 @@ There are many options that you can specify for any **Rotation** instance. These
 | `touchMin`          | `30`       | int    | minimum amount of pixels to detect swipe gesture
 | `touchMax`          | `320`      | int    | maximum amount of pixels to stop swipe gesture
 | `touchDelay`        | `500`      | int    | swipe gesture maximum delay (ms)
+| `responsive`        | `true`     | bool   | enable responsive support
 | `responsiveDelay`   | `150`      | int    | resize event maximum delay (ms)
 | `pagination`        | `true`     | bool   | show pagination
 | `paginationNumbers` | `true`     | bool   | show pagination with numbers
