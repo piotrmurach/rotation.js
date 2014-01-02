@@ -11,6 +11,7 @@ Responsive and mobile enabled jQuery plugin to help create rotating content such
 * HTML5 Metadata support
 * CSS3 transition animations with JavasScript fallback
 * Mobile friendly with touch support and mouse fallback
+* Accessibility support with ARIA markup
 * Keyboard support
 * Responsive support
 
@@ -60,7 +61,7 @@ There are many options that you can specify for any **Rotation** instance. These
 | `autoRotate`        | `true`     | bool   | animate automatically
 | `interval`          | `4000`     | int    | rotation interval (ms)
 | `duration`          | `500`      | int    | transition speed (ms)
-| `itemsId`           | `rotation` | string | id for the main rotation items
+| `containerClass`    | `rotation-container` | string | base container css class
 | `keypress`          | `true`     | bool   | keyboard keypress navigation
 | `touch`             | `true`     | bool   | enable touch events
 | `touchMin`          | `30`       | int    | minimum amount of pixels to detect swipe gesture
