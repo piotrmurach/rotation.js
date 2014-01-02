@@ -34,16 +34,17 @@
     touch: true,
     // it isn't a swipe over this time
     touchDelay: 500,
-    //minimum amount of pixels for swipe gesture
+    // minimum amount of pixels for swipe gesture
     touchMin: 30,
-    //maximum amount of pixels for swipe gesture
+    // maximum amount of pixels for swipe gesture
     touchMax: 320,
-    // main rotation id
-    itemsId: 'rotation',
     visibleItems: 1,
     scrollingStep: 1,
+    // eanble responsive support
     responsive: true,
+    // resize delay (ms)
     responsiveDelay: 150,
+    // main container css
     containerClass: 'rotation-container',
     // display controls
     pauseControl: true,
@@ -51,16 +52,16 @@
     // navigation control arrows
     navControls          : true,
     navControlsClass     : 'rotation-nav-controls',
-    navControlsItemClass : 'item',
-    navControlsNextClass : 'next',
-    navControlsPrevClass : 'prev',
+    navControlsItemClass : 'rotation-item',
+    navControlsNextClass : 'rotation-next',
+    navControlsPrevClass : 'rotation-prev',
     navControlsNextText  : '>>',
     navControlsPrevText  : '<<',
     // pagination controls
     pagination: true,
     paginationNumbers: true,
     paginationClass: 'rotation-pagination',
-    paginationItemClass: 'item',
+    paginationItemClass: 'rotation-page',
     paginationCurrentItemClass: 'current',
     // callbacks
     beforeInit: $.noop,
@@ -177,7 +178,7 @@
       var i;
 
       for (i = 0; i < this.itemsCount(); i++) {
-        this.getItemByIndex(i).attr('id', 'rotation-item-' + i);
+        this.getItemByIndex(i).addClass('rotation-item-' + (i + 1));
       }
     },
 
@@ -504,8 +505,8 @@
           container = this.$container,
           navContainer, item;
 
-      navContainer = $('<nav/>', {'class': this.getOption("navControlsClass")});
-      navContainer.appendTo(container);
+      navContainer = $('<ul/>', {'class': this.getOption("navControlsClass")});
+      $('<nav/>').wrapInner(navContainer).appendTo(container);
 
       item = $('<a/>', {
         'href': '#',
@@ -513,14 +514,14 @@
         'data-direction': -1,
         'html': this.getOption("navControlsPrevText")
       });
-      item.appendTo(navContainer);
+      $('<li/>').wrapInner(item).appendTo(navContainer);
       item = $('<a/>', {
         'href': '#',
         'class': this.getOption("navControlsItemClass") + ' ' + this.getOption("navControlsNextClass"),
         'data-direction': 1,
         'html': this.getOption("navControlsNextText")
       });
-      item.appendTo(navContainer);
+      $('<li/>').wrapInner(item).appendTo(navContainer);
 
       navContainer.children().on('click', function (e) {
         e.preventDefault();
@@ -542,7 +543,11 @@
         container = this.$container,
         paginationContainer, item, link, i, navItems;
 
-      paginationContainer = $('<ul/>', {'class': this.getOption("paginationClass")});
+      paginationContainer = $('<ol/>', {
+        'class': this.getOption("paginationClass"),
+        'role': 'navigation',
+        'aria-labelledby': 'paginglabel'
+      });
       paginationContainer.appendTo(container);
 
       for (i = 0; i < this.itemsCount(); i++) {
