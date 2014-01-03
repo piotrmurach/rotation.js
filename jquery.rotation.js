@@ -204,13 +204,25 @@
      * Initialize
      */
     init: function () {
-      this.$window      = $(window);
-      this.windowHeight = this.$window.height();
-      this.windowWidth  = this.$window.width();
-      this.itemWidth    = this.$itemsContainer.width();
+      var self = this;
+
+      this.$window       = $(window);
+      this.windowHeight  = this.$window.height();
+      this.windowWidth   = this.$window.width();
+      this.viewportWidth = this.$itemsViewport.outerWidth(true);
+      this.itemWidth     = this.viewportWidth / this.getOption("visibleItems");
+      this.itemsWidth    = this.itemWidth * this.itemsCount();
+
       this.initIdsOnElements();
 
-      this.$items.eq(0).siblings().hide();
+      this.$itemsContainer.width(this.itemsWidth);
+      this.$items.width(this.itemWidth);
+      this.$items.hide();
+      var itemsToShow = this.$items.slice(0, this.getOption("visibleItems"));
+
+      $.each(itemsToShow, function (idx, item) {
+        $(item).css("left", idx * self.itemWidth).show();
+      });
     },
 
     initIdsOnElements: function () {
@@ -493,8 +505,9 @@
           $(previousElement).css({left: 0})
           .animate({left: -distance}, {duration: duration}),
 
-          $(element).css({left: distance, opacity: 0}).show()
-          .animate({left: 0, opacity: 1},{duration: duration})
+          $(element).css({left: distance}).show()
+          .animate({left: 0},{duration: duration})
+
         ).done(function () {
           self.currentIndex = currentIndex;
           self.unlockAnimation();
