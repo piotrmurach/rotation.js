@@ -84,11 +84,12 @@
 
   var Rotation = function (container, options) {
     var
-      self = this, markup;
+      self = this, markup, viewport;
 
     this.options = $.extend({}, defaults, options);
 
-    markup = $('<section/>', {'class': this.getOption("containerClass")});
+    markup   = $('<section/>', {'class': this.getOption("containerClass")});
+    viewport = $('<div/>', {'class': 'rotation-viewport'});
 
     this._defaults       = defaults;
     this._name           = name;
@@ -97,8 +98,9 @@
     this.touchSupported  = 'ontouchend' in document;
     this.itemsContainer  = container;
     this.$itemsContainer = $(this.itemsContainer);
+    this.$itemsViewport  = this.$itemsContainer.wrap(viewport).parent();
     this.$items          = this.$itemsContainer.children();
-    this.$container      = this.$itemsContainer.wrap(markup).parent();
+    this.$container      = this.$itemsViewport.wrap(markup).parent();
     this.metadata        = this.$container.data("rotation-options");
 
     // remove whitespace
