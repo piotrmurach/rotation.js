@@ -172,6 +172,18 @@
       return this.$items.eq(index);
     },
 
+    lockAnimation: function () {
+      this.isAnimating = true;
+    },
+
+    isLocked: function () {
+      return !!this.isAnimating;
+    },
+
+    unlockAnimation: function () {
+      this.isAnimating = false;
+    },
+
     /*
      * Initialize
      */
