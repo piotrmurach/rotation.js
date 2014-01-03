@@ -22,6 +22,7 @@
     // transition easing
     transitionIn: 'fadeIn',
     transitionOut: 'fadeOut',
+    orientation: 'horizontal',
     // auto rotation pauses on hover
     pauseOnHover: true,
     // auto rotation stops on hover
@@ -431,11 +432,9 @@
       this.getOption("beforeTransition").call(this, this.currentIndex);
 
       var
-        currentIndex     = this.currentIndex,
-        itemsCount       = this.itemsCount(),
-        previousElement  = this.getItemByIndex(currentIndex),
-        duration         = this.getOption("duration"),
-        self             = this,
+        currentIndex    = this.currentIndex,
+        itemsCount      = this.itemsCount(),
+        previousElement = this.getItemByIndex(currentIndex),
         element, distance;
 
       if (currentIndex === 0 && direction < 0) {
@@ -443,35 +442,21 @@
       } else {
         currentIndex = (direction ? currentIndex + direction : ++currentIndex) % itemsCount;
       }
-      // console.log('current index: ' + currentIndex);
 
       element = this.getItemByIndex(currentIndex);
-      distance = direction ? direction * self.itemWidth : self.itemWidth;
+      distance = direction ? direction * this.itemWidth : this.itemWidth;
 
-      self.$itemsContainer.stop();
+      this.$itemsContainer.stop();
 
-      $.when(
-        $(previousElement).css({
-            'margin-left': '0px', 'opacity': 1
-           }).animate({
-          'margin-left': distance < 0 ? distance : -distance + 'px',
-          'opacity': 0}, {
-           duration: duration,
-           complete: function () {
-             $(element).css({
-               'zIndex': 10,
-               'opacity': 0,
-               'margin-left': distance < 0 ? -distance : distance + 'px'
-             }).show().animate({
-              'margin-left': '0px', 'opacity': 1}, {
-              duration: duration,
-             });
-           }
-        })
+      if (this.isLocked()) {
+        return;
+      }
 
-      ).done(function () {
-        self.currentIndex = currentIndex;
-      });
+      this.lockAnimation();
+
+      if (this.getOption("orientation") === 'horizontal') {
+        this.animations.slideHorizontal.call(this, previousElement, element, distance, currentIndex);
+      }
 
       if (this.getOption("pagination")) {
         this.setPaginationCurrentItem(direction);
@@ -482,6 +467,24 @@
       if (callback && (typeof callback === 'function')) { callback(); }
 
       if (direction) { this.play(); }
+    },
+
+    animations: {
+      slideHorizontal: function(previousElement, element, distance, currentIndex) {
+        var self = this,
+            duration = this.getOption("duration");
+
+        $.when(
+          $(previousElement).css({left: 0})
+          .animate({left: -distance}, {duration: duration}),
+
+          $(element).css({left: distance, opacity: 0}).show()
+          .animate({left: 0, opacity: 1},{duration: duration})
+        ).done(function () {
+          self.currentIndex = currentIndex;
+          self.unlockAnimation();
+        });
+      }
     },
 
     play: function () {
