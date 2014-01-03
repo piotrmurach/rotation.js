@@ -344,9 +344,11 @@
             if (touchDeltaX >= touchMin && touchDeltaY < touchMin) {
               if (touchStart.coords[0] > touchEnd.coords[0]) {
                 events.push("swipeleft");
+                self.setOption("autoRotate", true);
                 self.rotate(-1);
               } else {
                 events.push("swiperight");
+                self.setOption("autoRotate", true);
                 self.rotate(1);
               }
             } else if(touchDeltaY >= touchMin && touchDeltaX < touchMin) {
@@ -523,7 +525,7 @@
       });
       $('<li/>').wrapInner(item).appendTo(navContainer);
 
-      navContainer.children().on('click', function (e) {
+      navContainer.children().find('a').on('click', function (e) {
         e.preventDefault();
         var direction = +$(this).data('direction');
 
