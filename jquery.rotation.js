@@ -108,6 +108,8 @@
 
     this.options.beforeInit.call(this);
 
+    this.validate();
+
     this.init();
     this.build();
     this.bindEvents();
@@ -186,6 +188,23 @@
 
       for (i = 0; i < this.itemsCount(); i++) {
         this.getItemByIndex(i).addClass('rotation-item-' + (i + 1));
+      }
+    },
+
+    /*
+     * Validate options
+     */
+    validate: function () {
+      var
+        responsive = this.getOption("respnosive"),
+        orientation = this.getOption("orientation");
+
+      if (typeof responsive !== 'boolean') {
+        this.setOption("responsive", Boolean(responsive));
+      }
+
+      if (orientation !== 'horizontal' && orientation !== 'vertical') {
+        this.setOption("orientation", 'horizontal');
       }
     },
 
