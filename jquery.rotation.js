@@ -38,17 +38,23 @@
     touchMin: 30,
     // maximum amount of pixels for swipe gesture
     touchMax: 320,
+    // circular rotation
+    rotationLoop: true,
     visibleItems: 1,
     scrollingStep: 1,
+    itemWidth: 200,
     // eanble responsive support
     responsive: true,
     // resize delay (ms)
     responsiveDelay: 150,
     // main container css
     containerClass: 'rotation-container',
+
     // display controls
-    pauseControl: true,
-    pauseControlContainer: 'rotation-play-pause',
+    pausePlayControl: true,
+    pausePlayControlClass: 'rotation-play-pause',
+    pauseText: 'Pause',
+    playText: 'Play',
     // navigation control arrows
     navControls          : true,
     navControlsClass     : 'rotation-nav-controls',
@@ -63,6 +69,7 @@
     paginationClass: 'rotation-pagination',
     paginationItemClass: 'rotation-page',
     paginationCurrentItemClass: 'current',
+
     // callbacks
     beforeInit: $.noop,
     afterInit: $.noop,
