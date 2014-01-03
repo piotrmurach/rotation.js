@@ -1,22 +1,31 @@
 .rotation-container {
   position: relative;
-  width:  100%;
-  height: 500px;
+  width:  80%;
+  height: 300px;
   margin: 0 auto;
-  overflow: hidden;
 }
 .rotation-container ul {
-  list-style: none;
+  list-style-type: none;
   padding: 0;
 }
-.rotation-list {
+.rotation-viewport {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
-  height: 500px;
+  height: 300px;
+  overflow: hidden;
+}
+.rotation-list {
+  margin: 0;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
 }
 .rotation-list li {
+  position: absolute;
   margin: 0;
   line-height: 1.4em;
   float: left;
