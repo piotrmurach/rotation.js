@@ -1,7 +1,7 @@
 /*
- * rotation.js 0.4.0
+ * rotation.js 0.4.1
  *
- * (c) 2013 Piotr Murach
+ * (c) 2014 Piotr Murach
  *
  * Creates rotation of elements with various transition events.
  */
@@ -40,9 +40,9 @@
     // maximum amount of pixels for swipe gesture
     touchMax: 320,
     // circular rotation
-    rotationLoop: true,
+    loop: true,
     visibleItems: 1,
-    scrollingStep: 1,
+    step: 1,
     itemWidth: 200,
     // eanble responsive support
     responsive: true,
@@ -148,7 +148,7 @@
     };
   };
 
-  Rotation.VERSION = '0.4.0';
+  Rotation.VERSION = '0.4.1';
 
   $.extend(Rotation.prototype, {
 
@@ -274,11 +274,11 @@
       $(document).on('keydown', function (e) {
         // next
         if (e.keyCode === 39) {
-          self.rotate(1);
+          self.rotate(+self.getOption("step"));
         }
         // prev
         if (e.keyCode === 37) {
-          self.rotate(-1);
+          self.rotate(-self.getOption("step"));
         }
       });
     },
@@ -300,7 +300,7 @@
 
       this.$itemsContainer.on("mousewheel", function (e) {
         e.preventDefault();
-        self.rotate(self.currentIndex+1);
+        self.rotate(self.currentIndex + self.getOption("step"));
       });
     },
 
@@ -386,11 +386,11 @@
               if (touchStart.coords[0] > touchEnd.coords[0]) {
                 events.push("swipeleft");
                 self.setOption("autoRotate", true);
-                self.rotate(-1);
+                self.rotate(-self.getOption("step"));
               } else {
                 events.push("swiperight");
                 self.setOption("autoRotate", true);
-                self.rotate(1);
+                self.rotate(+self.getOption("step"));
               }
             } else if(touchDeltaY >= touchMin && touchDeltaX < touchMin) {
               if (touchStart.coords[1] < touchEnd.coords[1]) {
@@ -556,14 +556,14 @@
       item = $('<a/>', {
         'href': '#',
         'class': this.getOption("navControlsItemClass") + ' ' + this.getOption("navControlsPrevClass"),
-        'data-direction': -1,
+        'data-direction': -this.getOption("step"),
         'html': this.getOption("navControlsPrevText")
       });
       $('<li/>').wrapInner(item).appendTo(navContainer);
       item = $('<a/>', {
         'href': '#',
         'class': this.getOption("navControlsItemClass") + ' ' + this.getOption("navControlsNextClass"),
-        'data-direction': 1,
+        'data-direction': +this.getOption("step"),
         'html': this.getOption("navControlsNextText")
       });
       $('<li/>').wrapInner(item).appendTo(navContainer);

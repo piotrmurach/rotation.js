@@ -61,6 +61,8 @@ There are many options that you can specify for any **Rotation** instance. These
 | `autoRotate`        | `true`     | bool   | animate automatically
 | `interval`          | `4000`     | int    | rotation interval (ms)
 | `duration`          | `500`      | int    | transition speed (ms)
+| `loop`              | `true`     | bool   | infinite scrolling
+| `step`              | `1`        | int    | number of items to scroll
 | `containerClass`    | `rotation-container` | string | base container css class
 | `keypress`          | `true`     | bool   | keyboard keypress navigation
 | `touch`             | `true`     | bool   | enable touch events
@@ -103,7 +105,12 @@ Rotation.defeaults.autoRotate = true;
 
 ### API
 
-### Metadata
+## Metadata
+
+| Attribute     | Description
+| -------       | --------
+| `data-init`   | initial params
+
 
 ## Events
 
