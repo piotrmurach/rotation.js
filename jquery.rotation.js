@@ -122,6 +122,11 @@
 
     // public API
     return {
+      // appends item dynamically to container
+      add: function (item, callback) {
+
+      },
+
       play: function () {
         self.play();
       },
@@ -138,12 +143,22 @@
         return self.currentIndex;
       },
 
+      setCurrent: function (idx, callback) {
+        self.currentIndex = idx;
+        // self.rotateTo(idx)
+        if (callback) { callback.call(); }
+      },
+
       next: function () {
-        self.rotate(1);
+        self.rotate(+self.getOption("step"));
       },
 
       previous: function () {
-        self.rotate(-1);
+        self.rotate(-self.getOption("step"));
+      },
+
+      destroy: function () {
+        //self.destroy()
       }
     };
   };
