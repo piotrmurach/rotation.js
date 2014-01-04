@@ -1,4 +1,4 @@
-Rotation.js
+Rotation.js <img src="//benschwarz.github.io/bower-badges/badge@2x.png" width="130" height="30">
 ===========
 
 Responsive and mobile enabled jQuery plugin to help create rotating content such as image carousel, slider or revolving testimonials.
@@ -165,4 +165,4 @@ $("#rotation").rotation({
 
 ## Copyright
 
-Copyright (c) 2013 Piotr Murach. See LICENSE for further details.
+Copyright (c) 2014 Piotr Murach. See LICENSE for further details.
