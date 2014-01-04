@@ -315,10 +315,10 @@
 
       this.$itemsContainer.
         on("mouseenter", function () {
-          self.setOption("autoRotate", false);
+          self.setOption("pause", true);
         }).
         on("mouseleave", function () {
-          self.setOption("autoRotate", true);
+          self.setOption("pause", false);
         });
     },
 
@@ -412,11 +412,11 @@
             if (touchDeltaX >= touchMin && touchDeltaY < touchMin) {
               if (touchStart.coords[0] > touchEnd.coords[0]) {
                 events.push("swipeleft");
-                self.setOption("autoRotate", true);
+                self.setOption("pause", false);
                 self.rotate(-self.getOption("step"));
               } else {
                 events.push("swiperight");
-                self.setOption("autoRotate", true);
+                self.setOption("pause", false);
                 self.rotate(+self.getOption("step"));
               }
             } else if(touchDeltaY >= touchMin && touchDeltaX < touchMin) {
@@ -448,11 +448,12 @@
      * Main content rotation.
      */
     rotate: function (direction, callback) {
+      console.log('rotate....');
       // nothing to rotate
       if (this.itemsCount() <= 1) { return; }
 
-      // Stop if user has interacted
-      if (!this.getOption("autoRotate")) { return; }
+      // Pause if user has interacted
+      if (this.getOption("pause")) { return; }
 
       if (direction) { this.pause(); }
 
@@ -531,8 +532,8 @@
 
       if (self.auto) {
         self.auto = clearInterval(self.auto);
-        self.triggerCustomEvent(self.$itemsContainer, $.Event('pause'));
       }
+      self.triggerCustomEvent(self.$itemsContainer, $.Event('pause'));
     },
 
     setPaginationCurrentItem: function (direction) {
