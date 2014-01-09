@@ -103,6 +103,10 @@
     this.$items          = this.$itemsContainer.children();
     this.$container      = this.$itemsViewport.wrap(markup).parent();
     this.metadata        = this.$container.data("rotation-options");
+    this.cssTransition   = this.hasCSS('transition');
+    this.cssTransform    = this.hasCSS('transform');
+    this.cssSupported    = !!(this.cssTransition && this.cssTransform);
+    this.cssTransEvent   = this.transitionEndEvent();
 
     // remove whitespace
     this.$items.detach();
@@ -198,6 +202,59 @@
 
     unlockAnimation: function () {
       this.isAnimating = false;
+    },
+
+    /*
+    * Test for css property against vendor specific ones and non-vendor one.
+    */
+    hasCSS: function (prop) {
+      var
+        el       = document.createElement('rotation'),
+        prefixes = ['Khtml', 'Webkit', 'ms', 'Moz', 'O'],
+        lookup   = [''].concat(prefixes).concat(['']),
+        capProp  = prop.charAt(0).toUpperCase() + prop.slice(1),
+        props    = (prop + ' ' + prefixes.join(capProp + ' ') + capProp).split(' '),
+        prefix, i;
+
+      $(document.body).prepend(el);
+
+      for (i in props) {
+        prefix = lookup[i].toLowerCase();
+        if (prefix !== '') { prefix = '-' + prefix + '-'; }
+
+        if (props[i] in el.style) {
+          return prefix + prop;
+        }
+      }
+
+      $(document.body).children()[0].remove();
+
+      return false;
+    },
+
+    /*
+    * Test for css transtion end event.
+    */
+    transitionEndEvent: function () {
+      var
+        el = document.createElement('rotation'),
+        transEndEventNames = {
+          'WebkitTransition' : 'webkitTransitionEnd',
+          'MozTransition'    : 'transitionend',
+          'OTransition'      : 'oTransitionEnd',
+          'msTransition'     : 'MSTransitionEnd',
+          'transition'       : 'transitionend'
+        };
+
+      for (var name in transEndEventNames) {
+        if (el.style[name] !== undefined) {
+          return transEndEventNames[name];
+        }
+      }
+
+      $(document.body).children()[0].remove();
+
+      return false;
     },
 
     /*
