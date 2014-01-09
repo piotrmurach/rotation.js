@@ -146,6 +146,14 @@ $("#rotation").rotation({
 })
 ```
 
+## Animation
+
+The **Rotation** uses feature detection to turn CSS3 support in the following browsers:
+`Chrome`, `Safari 4+`, `Firefox 4+`, `Android browsers`.
+
+If you want to animate content inside each element use either after/beforeTransition callback
+or alternatively css animations.
+
 ## Examples
 
 ### 1. Testimonials rotation:
