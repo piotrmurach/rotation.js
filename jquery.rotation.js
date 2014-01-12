@@ -22,6 +22,7 @@
     // transition easing
     transitionIn: 'fadeIn',
     transitionOut: 'fadeOut',
+    // horizontal or vertical rotation
     orientation: 'horizontal',
     // auto rotation pauses on hover
     pauseOnHover: true,
@@ -267,8 +268,11 @@
       this.windowHeight  = this.$window.height();
       this.windowWidth   = this.$window.width();
       this.viewportWidth = this.$itemsViewport.outerWidth(true);
+      this.viewportHeight = this.$itemsViewport.outerHeight(true);
       this.itemWidth     = this.viewportWidth / this.getOption("visibleItems");
+      this.itemHeight    = this.viewportHeight / this.getOption("visibleItems");
       this.itemsWidth    = this.itemWidth * this.itemsCount();
+      this.itemsHeight   = this.itemHeight * this.itemsCount();
 
       this.initIdsOnElements();
 
@@ -295,7 +299,7 @@
      */
     validate: function () {
       var
-        responsive = this.getOption("respnosive"),
+        responsive  = this.getOption("respnosive"),
         orientation = this.getOption("orientation");
 
       if (typeof responsive !== 'boolean') {
@@ -524,7 +528,9 @@
         currentIndex    = this.currentIndex,
         itemsCount      = this.itemsCount(),
         previousElement = this.getItemByIndex(currentIndex),
-        element, distance;
+        dimension, element, distance;
+
+      dimension = this.getOption("orientation") === 'horizontal' ? this.itemWidth : this.itemHeight;
 
       if (currentIndex === 0 && direction < 0) {
         currentIndex = itemsCount - 1;
@@ -533,19 +539,15 @@
       }
 
       element = this.getItemByIndex(currentIndex);
-      distance = direction ? direction * this.itemWidth : this.itemWidth;
+      distance = direction ? direction * dimension : dimension;
 
       this.$itemsContainer.stop();
 
-      if (this.isLocked()) {
-        return;
-      }
+      if (this.isLocked()) { return; }
 
       this.lockAnimation();
 
-      if (this.getOption("orientation") === 'horizontal') {
-        this.animations.slideHorizontal.call(this, previousElement, element, distance, currentIndex);
-      }
+      this.animations.slide.call(this, previousElement, element, distance, currentIndex);
 
       if (this.getOption("pagination")) {
         this.setPaginationCurrentItem(direction);
@@ -559,18 +561,36 @@
     },
 
     animations: {
-      slideHorizontal: function(previousElement, element, distance, currentIndex) {
-        var self = this,
-            duration = this.getOption("duration");
+      slide: function(previousElement, element, distance, currentIndex) {
+        var
+          self = this,
+          duration    = this.getOption("duration"),
+          orientation = this.getOption("orientation"),
+          promises    = [];
 
-        $.when(
-          $(previousElement).css({left: 0})
-          .animate({left: -distance}, {duration: duration}),
+        if (orientation === 'horizontal') {
+          promises.push(
+            $(previousElement).css({left: 0})
+            .animate({left: -distance}, {duration: duration}).promise()
+          );
 
-          $(element).css({left: distance}).show()
-          .animate({left: 0},{duration: duration})
+          promises.push(
+            $(element).css({left: distance}).show()
+            .animate({left: 0},{duration: duration}).promise()
+          );
+        } else {
+          promises.push(
+            $(previousElement).css({top: 0})
+            .animate({top: -distance}, {duration: duration}).promise()
+          );
 
-        ).done(function () {
+          promises.push(
+            $(element).css({top: distance}).show()
+            .animate({top: 0},{duration: duration}).promise()
+          );
+        }
+
+        $.when.apply(null, promises).done(function () {
           self.currentIndex = currentIndex;
           self.unlockAnimation();
         });
