@@ -467,20 +467,24 @@
             var events = ['swipe'];
 
             if (touchDeltaX >= touchMin && touchDeltaY < touchMin) {
+              self.setOption("pause", false);
+
               if (touchStart.coords[0] > touchEnd.coords[0]) {
                 events.push("swipeleft");
-                self.setOption("pause", false);
                 self.rotate(-self.getOption("step"));
               } else {
                 events.push("swiperight");
-                self.setOption("pause", false);
                 self.rotate(+self.getOption("step"));
               }
             } else if(touchDeltaY >= touchMin && touchDeltaX < touchMin) {
+              self.setOption("pause", false);
+
               if (touchStart.coords[1] < touchEnd.coords[1]) {
                 events.push("swipedown");
+                self.rotate(-self.getOption("step"));
               } else {
                 events.push("swipeup");
+                self.rotate(+self.getOption("step"));
               }
             }
 
