@@ -20,6 +20,7 @@
     // transition speed (ms)
     duration: 300,
     // transition easing
+    easing: 'linear',
     transitionIn: 'fadeIn',
     transitionOut: 'fadeOut',
     // horizontal or vertical rotation
@@ -565,18 +566,19 @@
         var
           self = this,
           duration    = this.getOption("duration"),
+          easing      = this.getOption("easing"),
           orientation = this.getOption("orientation"),
           promises    = [];
 
         if (orientation === 'horizontal') {
           promises.push(
             $(previousElement).css({left: 0})
-            .animate({left: -distance}, {duration: duration}).promise()
+            .animate({left: -distance}, {duration: duration, easing: easing}).promise()
           );
 
           promises.push(
             $(element).css({left: distance}).show()
-            .animate({left: 0},{duration: duration}).promise()
+            .animate({left: 0},{duration: duration, easing: easing}).promise()
           );
         } else {
           promises.push(
