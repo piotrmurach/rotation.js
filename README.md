@@ -63,7 +63,8 @@ There are many options that you can specify for any **Rotation** instance. These
 | `duration`          | `500`      | int    | transition speed (ms)
 | `loop`              | `true`     | bool   | infinite scrolling
 | `step`              | `1`        | int    | number of items to scroll
-| `orientation`       | `horizontal` | int    | horizontal or vertical rotation
+| `orientation`       | `horizontal` | string    | horizontal or vertical rotation
+| `easing`            | `linear`   | string  | transition easing
 | `containerClass`    | `rotation-container` | string | base container css class
 | `keypress`          | `true`     | bool   | keyboard keypress navigation
 | `touch`             | `true`     | bool   | enable touch events
