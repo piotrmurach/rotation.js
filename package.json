@@ -1,6 +1,6 @@
 {
   "name": "rotation.js",
-  "version": "0.4.1",
+  "version": "0.4.2",
   "description": "Responsive and mobile enabled jQuery plugin to help create rotating content such as image carousel, slider or testimonials.",
   "main": "Gruntfile.js",
   "author": "Piotr Murach",
