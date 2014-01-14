@@ -1,3 +1,11 @@
+0.4.2 (Jan 14, 2014)
+
+* Fix pause behaviour
+* Add CSS3 features detection
+* Add ability to specify orientation for the slide animation
+* Add easing option
+* Add all callbacks from options
+
 0.4.1 (Jan 03, 2014)
 
 * Add options validation
