@@ -115,9 +115,9 @@
     this.$itemsContainer.empty();
     this.$itemsContainer.append(this.$items);
 
-    this.options.beforeInit.call(this);
-
     this.validate();
+
+    this.options.beforeInit.call(this);
 
     this.init();
     this.build();
@@ -477,9 +477,11 @@
               if (touchStart.coords[0] > touchEnd.coords[0]) {
                 events.push("swipeleft");
                 self.rotate(-self.getOption("step"));
+                self.getOption('onSwipeLeft').call(self);
               } else {
                 events.push("swiperight");
                 self.rotate(+self.getOption("step"));
+                self.getOption('onSwipeRight').call(self);
               }
             } else if(touchDeltaY >= touchMin && touchDeltaX < touchMin) {
               self.setOption("pause", false);
@@ -487,9 +489,11 @@
               if (touchStart.coords[1] < touchEnd.coords[1]) {
                 events.push("swipedown");
                 self.rotate(-self.getOption("step"));
+                self.getOption('onSwipeDown').call(self);
               } else {
                 events.push("swipeup");
                 self.rotate(+self.getOption("step"));
+                self.getOption('onSwipeUp').call(self);
               }
             }
 
@@ -514,7 +518,6 @@
      * Main content rotation.
      */
     rotate: function (direction, callback) {
-      console.log('rotate....');
       // nothing to rotate
       if (this.itemsCount() <= 1) { return; }
 
@@ -523,7 +526,6 @@
 
       if (direction) { this.pause(); }
 
-      this.getOption("beforeTransition").call(this, this.currentIndex);
 
       var
         currentIndex    = this.currentIndex,
@@ -548,6 +550,8 @@
 
       this.lockAnimation();
 
+      this.getOption("beforeTransition").call(this, this.currentIndex);
+
       this.animations.slide.call(this, previousElement, element, distance, currentIndex);
 
       if (this.getOption("pagination")) {
@@ -555,7 +559,6 @@
       }
 
       // callbacks
-      this.getOption("afterTransition").call(this, this.currentIndex);
       if (callback && (typeof callback === 'function')) { callback(); }
 
       if (direction) { this.play(); }
@@ -595,6 +598,7 @@
         $.when.apply(null, promises).done(function () {
           self.currentIndex = currentIndex;
           self.unlockAnimation();
+          self.getOption("afterTransition").call(self, self.currentIndex);
         });
       }
     },
