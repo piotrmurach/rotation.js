@@ -120,7 +120,7 @@ There are number of custom events emitted by **Rotation** that you can listen fo
 
 | Event         | Description
 | -------       | --------
-| `swipe`       | when swipe gesture is performed, with swipestart & swipeend custom objects
+| `swipe`       | when swipe gesture is performed
 | `swipeleft`   | when swipe left
 | `swiperight`  | when swipe right
 | `swipeup`     | when swipe up
@@ -130,6 +130,15 @@ There are number of custom events emitted by **Rotation** that you can listen fo
 | `play`        | when auto rotation starts/resumes
 | `pause`       | when auto rotation pauses
 | `stop`        | when auto rotation is stopped
+
+The `swipe`, `swipeleft`, `swiperight`, `swipeup`, `swipedown` events decorate the event object with `swipestart` and `swipeend` properties. Both `swipestart` and `swipeend` object literals contain following properties:
+
+| Property     | Description
+| -------      | --------
+| `time`       | time when swipe gesture is registered
+| `touch`      | touch object the event is registered with
+| `coords`     | array with x and y coordinates for the touch event
+| `origin`     | jquery object wrapper for the touch event
 
 You can either register callback to listen for the custom event with `on` method:
 
