@@ -74,10 +74,12 @@
     paginationCurrentItemClass: 'current',
 
     // callbacks
-    beforeInit: $.noop,
-    afterInit: $.noop,
-    beforeTransition: $.noop,
-    afterTransition: $.noop,
+    onInitStart: $.noop,
+    onInitEnd: $.noop,
+    onTransitionStart: $.noop,
+    onTransitionEnd: $.noop,
+    onPlay: $.noop,
+    onPause: $.noop,
     onSwipeLeft: $.noop,
     onSwipeRight: $.noop,
     onSwipeUp: $.noop,
@@ -95,7 +97,7 @@
     viewport = $('<div/>', {'class': 'rotation-viewport'});
 
     this._defaults       = defaults;
-    this._name           = name;
+    this.namespace       = this.options.namespace;
     this.currentIndex    = 0;
     this.isAnimating     = false; // control animation
     this.touchSupported  = 'ontouchend' in document;
@@ -117,14 +119,16 @@
 
     this.validate();
 
-    this.options.beforeInit.call(this);
+    this.triggerCustomEvent(this.$itemsContainer, $.Event(self.namespace + ':initstart'));
+    this.options.onInitStart.call(this);
 
     this.init();
     this.build();
     this.bindEvents();
     this.play();
 
-    this.options.afterInit.call(this);
+    this.triggerCustomEvent(this.$itemsContainer, $.Event(this.namespace + ':initend'));
+    this.options.onInitEnd.call(this);
 
     // public API
     return {
@@ -529,6 +533,7 @@
 
 
       var
+        namespace       = this.getOption("namespace"),
         currentIndex    = this.currentIndex,
         itemsCount      = this.itemsCount(),
         previousElement = this.getItemByIndex(currentIndex),
@@ -551,7 +556,8 @@
 
       this.lockAnimation();
 
-      this.getOption("beforeTransition").call(this, this.currentIndex);
+      this.getOption("onTransitionStart").call(this);
+      this.triggerCustomEvent(this.$itemsContainer, $.Event(namespace + ':transitionstart'));
 
       this.animations.slide.call(this, previousElement, element, distance, currentIndex);
 
@@ -572,6 +578,7 @@
           duration    = this.getOption("duration"),
           easing      = this.getOption("easing"),
           orientation = this.getOption("orientation"),
+          namespace   = this.getOption("namespace"),
           promises    = [];
 
         if (orientation === 'horizontal') {
@@ -599,7 +606,8 @@
         $.when.apply(null, promises).done(function () {
           self.currentIndex = currentIndex;
           self.unlockAnimation();
-          self.getOption("afterTransition").call(self, self.currentIndex);
+          self.getOption("onTransitionEnd").call(self);
+          self.triggerCustomEvent(self.$itemsContainer, $.Event(namespace + ':transitionend'));
         });
       }
     },
@@ -612,6 +620,7 @@
         this.auto = setInterval(function () {
           self.rotate();
         }, this.getOption("interval"));
+        this.getOption("onPlay").call(this);
         self.triggerCustomEvent(self.$itemsContainer, $.Event(namespace + ':play'));
       }
     },
@@ -623,6 +632,7 @@
       if (self.auto) {
         self.auto = clearInterval(self.auto);
       }
+      this.getOption("onPause").call(this);
       self.triggerCustomEvent(self.$itemsContainer, $.Event(namespace + ':pause'));
     },
 
