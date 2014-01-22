@@ -408,6 +408,7 @@
         touchDelay = self.getOption("touchDelay"),
         touchMin   = self.getOption("touchMin"),
         touchMax   = self.getOption("touchMax"),
+        namespace  = self.getOption("namespace"),
         touchStartEvent = self.touchSupported ? 'touchstart' : 'mousedown',
         touchStopEvent  = self.touchSupported ? 'touchend' : 'mouseout',
         touchMoveEvent  = self.touchSupported ? 'touchmove' : 'mousemove',
@@ -469,17 +470,17 @@
               touchDistance >= touchMin &&
               touchDistance <= touchMax) {
 
-            var events = ['swipe'];
+            var events = [namespace + ':swipe'];
 
             if (touchDeltaX >= touchMin && touchDeltaY < touchMin) {
               self.setOption("pause", false);
 
               if (touchStart.coords[0] > touchEnd.coords[0]) {
-                events.push("swipeleft");
+                events.push(namespace + ":swipeleft");
                 self.rotate(-self.getOption("step"));
                 self.getOption('onSwipeLeft').call(self);
               } else {
-                events.push("swiperight");
+                events.push(namespace + ":swiperight");
                 self.rotate(+self.getOption("step"));
                 self.getOption('onSwipeRight').call(self);
               }
@@ -487,11 +488,11 @@
               self.setOption("pause", false);
 
               if (touchStart.coords[1] < touchEnd.coords[1]) {
-                events.push("swipedown");
+                events.push(namespace + ":swipedown");
                 self.rotate(-self.getOption("step"));
                 self.getOption('onSwipeDown').call(self);
               } else {
-                events.push("swipeup");
+                events.push(namespace + ":swipeup");
                 self.rotate(+self.getOption("step"));
                 self.getOption('onSwipeUp').call(self);
               }
@@ -604,23 +605,25 @@
     },
 
     play: function () {
-      var self = this;
+      var self = this,
+          namespace = self.getOption("namespace");
 
       if (this.getOption("autoRotate")) {
         this.auto = setInterval(function () {
           self.rotate();
         }, this.getOption("interval"));
-        self.triggerCustomEvent(self.$itemsContainer, $.Event('play'));
+        self.triggerCustomEvent(self.$itemsContainer, $.Event(namespace + ':play'));
       }
     },
 
     pause: function () {
-      var self = this;
+      var self = this,
+          namespace = self.getOption("namespace");
 
       if (self.auto) {
         self.auto = clearInterval(self.auto);
       }
-      self.triggerCustomEvent(self.$itemsContainer, $.Event('pause'));
+      self.triggerCustomEvent(self.$itemsContainer, $.Event(namespace + ':pause'));
     },
 
     setPaginationCurrentItem: function (direction) {
