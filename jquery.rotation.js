@@ -497,8 +497,8 @@
               }
             }
 
-            $.each(events, function (index, eventType) {
-              var eventObject = $.Event(eventType, {
+            $.each(events, function (index, eventName) {
+              var eventObject = $.Event(eventName, {
                 target: e.target,
                 swipestart: touchStart,
                 swipeend: touchEnd,
