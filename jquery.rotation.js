@@ -684,7 +684,7 @@
       });
       $('<li/>').wrapInner(item).appendTo(navContainer);
 
-      navContainer.children().find('a').on('click', function (e) {
+      navContainer.children().find('a').on('click touchstart', function (e) {
         e.preventDefault();
         var direction = +$(this).data('direction');
 
