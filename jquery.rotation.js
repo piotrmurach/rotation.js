@@ -342,6 +342,16 @@
       }
     },
 
+    /*
+     * Unbind already defiend plugin event listeners
+     */
+    unbindEvents: function () {
+      $(document).off('keydown.' + this.namespace);
+      this.$itemsContainer.off('swipeleft swiperight swipeup swipedown .' + this.namespace);
+      this.$navContainer.find('a').off('click touchstart .' + this.namespace);
+      this.$paginationContainer.find('a').off('click touchstart .' + this.namespace);
+    },
+
     bindResizeEvent: function () {
       var self = this,
           timer;
