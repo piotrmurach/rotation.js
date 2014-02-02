@@ -86,6 +86,20 @@ There are many options that you can specify for any **Rotation** instance. These
 | `navControlsNextText`  | `>>`   | string | text for prev nav control
 | `navControlsPrevText`  | `<<`   | string | text for prev nav control
 
+Callback options
+
+| Callback             | Default        | Type     | Description
+| -------------------- | -------------- | -------- | --------
+| `onInitStart`        | `function(){}` | function | before plugin initialization
+| `onInitEnd`          | `function(){}` | function | after plugin initialization
+| `onTransitionStart`  | `function(){}` | function | before rotation starts
+| `onTransitionEnd`    | `function(){}` | function | after rotation ends
+| `onSwipeLeft`        | `function(){}` | function | when swipe left gesture
+| `onSwipeRight`       | `function(){}` | function | when swipe right gesture
+| `onSwipeUp`          | `function(){}` | function | when swipe up gesture
+| `onSwipeDown`        | `function(){}` | function | when swipe down gesture
+| `onSwipe`            | `function(){}` | function | when any swipe gesture
+
 ### Initialization
 
 The wide set of defaults provided by the **Rotation** can be easily extended by using object literal in the following ways:
@@ -118,18 +132,20 @@ Rotation.defeaults.autoRotate = true;
 
 There are number of custom events emitted by **Rotation** that you can listen for.
 
-| Event         | Description
-| -------       | --------
-| `swipe`       | when swipe gesture is performed
-| `swipeleft`   | when swipe left
-| `swiperight`  | when swipe right
-| `swipeup`     | when swipe up
-| `swipedown`   | when swipe down
-| `scrollstart` | when mouse scroll is started
-| `scrollstop`  | when mouse scroll is finished
-| `play`        | when auto rotation starts/resumes
-| `pause`       | when auto rotation pauses
-| `stop`        | when auto rotation is stopped
+| Event                  | Description
+| -----------------------| -------------------
+| `rotation:swipe`       | when swipe gesture is performed
+| `rotation:swipeleft`   | when swipe left
+| `rotation:swiperight`  | when swipe right
+| `rotation:swipeup`     | when swipe up
+| `rotation:swipedown`   | when swipe down
+| `rotation:scrollstart` | when mouse scroll is started
+| `rotation:scrollstop`  | when mouse scroll is finished
+| `rotation:transitionstart` | when animation is started
+| `rotation:transitionend`   | when animation is finished
+| `rotation:play`        | when auto rotation starts/resumes
+| `rotation:pause`       | when auto rotation pauses
+| `rotation:stop`        | when auto rotation is stopped
 
 The `swipe`, `swipeleft`, `swiperight`, `swipeup`, `swipedown` events decorate the event object with `swipestart` and `swipeend` properties. Both `swipestart` and `swipeend` object literals contain following properties:
 
@@ -144,7 +160,7 @@ You can either register callback to listen for the custom event with `on` method
 
 ```javascript
 $("#rotation").rotation().
-on("swipeleft", function (e) {
+on("rotation:swipeleft", function (e) {
   console.log(e.swipestart.coords);
 })
 ```
