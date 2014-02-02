@@ -1,3 +1,11 @@
+0.4.3 (Feb 2, 2014)
+
+* Change to namespace custom events
+* Add events unbinding to help setup plugin safely
+* Change before/afterTransition callbacks to onTransitionStart, onTransitionEnd
+* Add rotation:transitionstart, rotation:transition, rotation:transitionend events
+* Add logger
+
 0.4.2 (Jan 14, 2014)
 
 * Fix pause behaviour
