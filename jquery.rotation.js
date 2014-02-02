@@ -316,6 +316,9 @@
       }
     },
 
+    /*
+     * Bind plugin event listeners
+     */
     bindEvents: function () {
 
       if (this.getOption("responsive")) {
@@ -343,7 +346,7 @@
       var self = this,
           timer;
 
-      self.$window.on("resize", function (e) {
+      self.$window.on("resize." + this.namespace, function (e) {
         if (e.originalEvent) {
           var width = self.$window.width(),
               height = self.$window.height();
@@ -364,13 +367,13 @@
     bindKeyboardEvents: function () {
       var self = this;
 
-      $(document).on('keydown', function (e) {
-        // next
-        if (e.keyCode === 39) {
+      $(document).on('keydown.' + this.namespace, function (e) {
+        // next or up
+        if (e.keyCode === 39 || e.keyCode === 38) {
           self.rotate(+self.getOption("step"));
         }
-        // prev
-        if (e.keyCode === 37) {
+        // prev or down
+        if (e.keyCode === 37 || e.keyCode === 40) {
           self.rotate(-self.getOption("step"));
         }
       });
@@ -380,10 +383,10 @@
       var self = this;
 
       this.$itemsContainer.
-        on("mouseenter", function () {
+        on("mouseenter." + this.namespace, function () {
           self.setOption("pause", true);
         }).
-        on("mouseleave", function () {
+        on("mouseleave." + this.namespace, function () {
           self.setOption("pause", false);
         });
     },
@@ -391,7 +394,7 @@
     bindScrolling: function () {
       var self = this;
 
-      this.$itemsContainer.on("mousewheel", function (e) {
+      this.$itemsContainer.on("mousewheel." + this.namespace, function (e) {
         e.preventDefault();
         self.rotate(self.currentIndex + self.getOption("step"));
       });
@@ -514,9 +517,9 @@
         };
 
       self.$itemsContainer
-        .on(touchStartEvent, onTouchStart)
-        .on(touchMoveEvent, onTouchMove)
-        .on(touchStopEvent, onTouchEnd);
+        .on(touchStartEvent + '.' + this.namespace, onTouchStart)
+        .on(touchMoveEvent  + '.' + this.namespace, onTouchMove)
+        .on(touchStopEvent  + '.' + this.namespace, onTouchEnd);
     },
 
     /*
