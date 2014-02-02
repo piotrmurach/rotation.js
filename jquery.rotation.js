@@ -772,6 +772,15 @@
 
   });
 
+  /*
+   * logger
+   */
+  function log() {
+    if (window.console && console.log) {
+      console.log(name + ' : ' + Array.prototype.join.call(arguments, ' '));
+    }
+  };
+
   Rotation.defaults = Rotation.prototype.defaults;
 
   $.fn[name] = function (options) {
