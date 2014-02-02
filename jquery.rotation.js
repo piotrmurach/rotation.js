@@ -642,8 +642,7 @@
     setPaginationCurrentItem: function (direction) {
       var
         currentClass        = this.getOption("paginationCurrentItemClass"),
-        paginationContainer = $('.'+this.getOption("paginationClass"), this.container),
-        currentItem         = $("a." + currentClass, paginationContainer).parent('li'),
+        currentItem         = $("a." + currentClass, this.$paginationContainer).parent('li'),
         nextIndex, nextItem, nextPage, selector;
 
       selector = direction < 0 ? "last" : "first";
@@ -653,9 +652,9 @@
         nextIndex = this.currentIndex;
       }
       nextItem = currentItem.siblings().eq(nextIndex);
-      nextPage = nextItem.length ? nextItem.find('a') : $("a:" + selector, paginationContainer);
+      nextPage = nextItem.length ? nextItem.find('a') : $("a:" + selector, this.$paginationContainer);
 
-      $('a.' + currentClass, paginationContainer).removeClass(currentClass);
+      $('a.' + currentClass, this.$paginationContainer).removeClass(currentClass);
       nextPage.addClass(currentClass);
     },
 
@@ -680,10 +679,11 @@
 
       var self = this,
           container = this.$container,
-          navContainer, item;
+          startEvents = 'click touchstart .' + this.namespace,
+          item;
 
-      navContainer = $('<ul/>', {'class': this.getOption("navControlsClass")});
-      $('<nav/>').wrapInner(navContainer).appendTo(container);
+      self.$navContainer = $('<ul/>', {'class': this.getOption("navControlsClass")});
+      $('<nav/>').wrapInner(self.$navContainer).appendTo(container);
 
       item = $('<a/>', {
         'href': '#',
@@ -691,16 +691,17 @@
         'data-direction': -this.getOption("step"),
         'html': this.getOption("navControlsPrevText")
       });
-      $('<li/>').wrapInner(item).appendTo(navContainer);
+      $('<li/>').wrapInner(item).appendTo(self.$navContainer);
       item = $('<a/>', {
         'href': '#',
         'class': this.getOption("navControlsItemClass") + ' ' + this.getOption("navControlsNextClass"),
         'data-direction': +this.getOption("step"),
         'html': this.getOption("navControlsNextText")
       });
-      $('<li/>').wrapInner(item).appendTo(navContainer);
+      $('<li/>').wrapInner(item).appendTo(self.$navContainer);
 
-      navContainer.children().find('a').on('click touchstart', function (e) {
+
+      self.$navContainer.children().find('a').on(startEvents, function (e) {
         e.preventDefault();
         var direction = +$(this).data('direction');
 
@@ -718,14 +719,15 @@
       var
         self = this,
         container = this.$container,
-        paginationContainer, item, link, i, navItems;
+        startEvents = 'click touchstart .' + this.namespace,
+        item, link, i, navItems;
 
-      paginationContainer = $('<ol/>', {
+      self.$paginationContainer = $('<ol/>', {
         'class': this.getOption("paginationClass"),
         'role': 'navigation',
         'aria-labelledby': 'paginglabel'
       });
-      paginationContainer.appendTo(container);
+      self.$paginationContainer.appendTo(container);
 
       for (i = 0; i < this.itemsCount(); i++) {
         item = $('<li/>');
@@ -736,13 +738,13 @@
           'class': this.getOption("paginationItemClass")
         });
         link.appendTo(item);
-        item.appendTo(paginationContainer);
+        item.appendTo(self.$paginationContainer);
       }
 
-      navItems = $('li', paginationContainer).children();
+      navItems = $('li', self.$paginationContainer).children();
       navItems.eq(0).addClass(this.getOption("paginationCurrentItemClass"));
 
-      navItems.on('click touchstart', function (e) {
+      navItems.on(startEvents, function (e) {
         e.preventDefault();
         var
           currentElement = $(this),
